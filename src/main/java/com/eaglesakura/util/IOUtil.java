@@ -1,7 +1,10 @@
 package com.eaglesakura.util;
 
+import com.eaglesakura.io.Disposable;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -9,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.RandomAccessFile;
+import java.lang.reflect.Method;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -656,47 +660,62 @@ public class IOUtil {
     }
 
     /**
-     * Streamを閉じる
+     * リソースオブジェクトを必要に応じて閉じる
+     * <p/>
+     * Closeable/Disposableをimplしているか、close()メソッドもしくはdispose()メソッドを持っていれば自動的に呼び出す。
      *
-     * @param is 対象
+     * @param obj 解放対象のオブジェクト
+     * @return 解放が行われたらtrue、それ以外はfalse
      */
-    public static void close(InputStream is) {
-        if (is == null) {
-            return;
-        }
-        try {
-            is.close();
-        } catch (Exception e) {
-        }
-    }
-
-
-    public static void close(RandomAccessFile raf) {
-        if (raf == null) {
-            return;
+    public static boolean close(Object obj) {
+        if (obj == null) {
+            return false;
         }
 
         try {
-            raf.close();
+            if (obj instanceof Closeable) {
+                ((Closeable) obj).close();
+                return true;
+            } else if (obj instanceof Disposable) {
+                ((Disposable) obj).dispose();
+                return true;
+            } else if (obj instanceof InputStream) {
+                // CloseableがimplされていないAPI Levelが過去にあったので、それへの対応を入れる
+                ((InputStream) obj).close();
+                return true;
+            } else if (obj instanceof OutputStream) {
+                // CloseableがimplされていないAPI Levelが過去にあったので、それへの対応を入れる
+                ((OutputStream) obj).close();
+                return true;
+            } else if (obj instanceof RandomAccessFile) {
+                // CloseableがimplされていないAPI Levelが過去にあったので、それへの対応を入れる
+                ((RandomAccessFile) obj).close();
+                return true;
+            }
+
+            try {
+                // 引数なしcloseメソッドを見つけたら自動で閉じる
+                Method method = obj.getClass().getMethod("close");
+                method.invoke(obj);
+                return true;
+            } catch (Exception e) {
+
+            }
+
+            try {
+                // 引数なしdisposeメソッドを見つけたら自動で閉じる
+                Method method = obj.getClass().getMethod("dispose");
+                method.invoke(obj);
+                return true;
+            } catch (Exception e) {
+
+            }
         } catch (Exception e) {
-        }
-    }
-
-    /**
-     * Streamを閉じる
-     *
-     * @param os 対象
-     */
-    public static void close(OutputStream os) {
-        if (os == null) {
-            return;
+            // 問題が起こっても無視する
         }
 
-        try {
-            os.close();
-        } catch (Exception e) {
-
-        }
+        // 何もできなかった
+        return false;
     }
 
     public static boolean isFile(File file) {
