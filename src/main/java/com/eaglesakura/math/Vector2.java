@@ -1,5 +1,7 @@
 package com.eaglesakura.math;
 
+import com.eaglesakura.util.MathUtil;
+
 /**
  * XYの2次元ベクトルを管理する
  */
