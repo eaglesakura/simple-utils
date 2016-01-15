@@ -11,7 +11,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.RandomAccessFile;
 import java.lang.reflect.Method;
 import java.security.MessageDigest;
 import java.util.ArrayList;
@@ -37,15 +36,7 @@ public class IOUtil {
      * @throws IOException
      */
     public static void copyTo(InputStream input, OutputStream output) throws IOException {
-        byte[] buffer = new byte[1024 * 128];
-        int length = 0;
-
-        while ((length = input.read(buffer)) > 0) {
-            output.write(buffer, 0, length);
-        }
-
-        input.close();
-        output.close();
+        copyTo(input, true, output, true);
     }
 
     /**
@@ -58,18 +49,22 @@ public class IOUtil {
      * @throws IOException
      */
     public static void copyTo(InputStream input, boolean closeInput, OutputStream output, boolean closeOutput) throws IOException {
-        byte[] buffer = new byte[1024 * 128];
-        int length = 0;
+        try {
+            byte[] buffer = new byte[1024 * 128];
+            int length;
 
-        while ((length = input.read(buffer)) > 0) {
-            output.write(buffer, 0, length);
-        }
+            while ((length = input.read(buffer)) > 0) {
+                output.write(buffer, 0, length);
+            }
 
-        if (closeInput) {
-            input.close();
-        }
-        if (closeOutput) {
-            output.close();
+        } finally {
+            if (closeInput) {
+                close(input);
+            }
+
+            if (closeOutput) {
+                close(output);
+            }
         }
     }
 
@@ -86,6 +81,7 @@ public class IOUtil {
 
     /**
      * int配列をbit状態を保ってbyte配列へ変換する
+     * intはBigEndianであることを前提とする。
      *
      * @param array  変換元のint配列
      * @param result 変換先のbyte配列
@@ -159,18 +155,19 @@ public class IOUtil {
     public static byte[] toByteArray(InputStream is, boolean close) throws IOException {
         byte[] result = null;
 
-        //! 1kbずつ読み込む。
-        byte[] tempBuffer = new byte[1024 * 5];
+        //! 適当なサイズを読み込む
+        byte[] tempBuffer = new byte[1024 * 4];
         //! 元ストリームを読み取り
-        {
+        try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             int n = 0;
             while ((n = is.read(tempBuffer)) > 0) {
                 baos.write(tempBuffer, 0, n);
             }
             result = baos.toByteArray();
+        } finally {
             if (close) {
-                is.close();
+                IOUtil.close(is);
             }
         }
 
@@ -184,22 +181,26 @@ public class IOUtil {
      * @param dst コピー先
      */
     public static final void copy(File src, File dst) throws IOException {
-        mkdir(dst.getParentFile());
-        InputStream srcStream = new FileInputStream(src);
-        OutputStream dstStream = new FileOutputStream(dst);
+        mkdirs(dst.getParentFile());
+        InputStream srcStream = null;
+        OutputStream dstStream = null;
 
-        //! 適当なバッファサイズを決める。
-        byte[] buffer = new byte[128 * 1024];
-        int readed = 0;
+        try {
+            srcStream = new FileInputStream(src);
+            dstStream = new FileOutputStream(dst);
 
-        //! 読めなくなるまで読み込みを続ける
-        while ((readed = srcStream.read(buffer)) > 0) {
-            dstStream.write(buffer, 0, readed);
+            //! 適当なバッファサイズを決める。
+            byte[] buffer = new byte[128 * 1024];
+            int readed = 0;
+
+            //! 読めなくなるまで読み込みを続ける
+            while ((readed = srcStream.read(buffer)) > 0) {
+                dstStream.write(buffer, 0, readed);
+            }
+        } finally {
+            close(srcStream);
+            close(dstStream);
         }
-
-        srcStream.close();
-        dstStream.close();
-
         //! 最終変更日を修正する
         dst.setLastModified(src.lastModified());
     }
@@ -234,9 +235,9 @@ public class IOUtil {
      * @return MD5
      */
     public static String genMD5(File file) {
+        InputStream is = null;
         try {
-
-            FileInputStream is = new FileInputStream(file);
+            is = new FileInputStream(file);
             final MessageDigest md = MessageDigest.getInstance("MD5");
             {
                 byte[] buffer = new byte[128 * 1024];
@@ -261,6 +262,8 @@ public class IOUtil {
             return sBuffer.toString();
         } catch (Exception e) {
             return null;
+        } finally {
+            close(is);
         }
     }
 
@@ -490,18 +493,18 @@ public class IOUtil {
      */
     @Deprecated
     public static File mkdir(File dir) {
-        // 作成済みだったら何もしない
-        if (dir.isDirectory()) {
-            return dir;
-        }
-        File parent = dir.getAbsoluteFile().getParentFile();
-        if (parent.isDirectory()) {
-            dir.mkdir();
-        } else {
-            // 親が作られてなかったら作る
-            mkdir(parent);
-        }
+        return mkdirs(dir);
+    }
 
+    /**
+     * そこまでの道を含めてディレクトリを作成する。
+     * File.mkdirsはvoid戻りなので、１行で呼べるようにする。
+     *
+     * @param dir
+     * @return
+     */
+    public static File mkdirs(File dir) {
+        dir.mkdirs();
         return dir;
     }
 
@@ -678,18 +681,6 @@ public class IOUtil {
                 return true;
             } else if (obj instanceof Disposable) {
                 ((Disposable) obj).dispose();
-                return true;
-            } else if (obj instanceof InputStream) {
-                // CloseableがimplされていないAPI Levelが過去にあったので、それへの対応を入れる
-                ((InputStream) obj).close();
-                return true;
-            } else if (obj instanceof OutputStream) {
-                // CloseableがimplされていないAPI Levelが過去にあったので、それへの対応を入れる
-                ((OutputStream) obj).close();
-                return true;
-            } else if (obj instanceof RandomAccessFile) {
-                // CloseableがimplされていないAPI Levelが過去にあったので、それへの対応を入れる
-                ((RandomAccessFile) obj).close();
                 return true;
             }
 
