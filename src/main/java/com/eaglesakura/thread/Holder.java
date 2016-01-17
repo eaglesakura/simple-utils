@@ -1,4 +1,4 @@
-package com.eaglesakura.util;
+package com.eaglesakura.thread;
 
 /**
  * 何らかの値を保持するためのホルダ。
