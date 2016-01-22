@@ -81,9 +81,6 @@ public class StringUtil {
 
     /**
      * 引数全ての文字列が有効であればtrueを返す
-     *
-     * @param args
-     * @return
      */
     public static boolean allNotEmpty(String... args) {
         for (String arg : args) {
@@ -97,9 +94,6 @@ public class StringUtil {
 
     /**
      * 文字列がnullか空文字だったらtrueを返す。
-     *
-     * @param str
-     * @return
      */
     public static boolean isEmpty(String str) {
         if (str == null) {
@@ -111,9 +105,6 @@ public class StringUtil {
 
     /**
      * strがnullかemptyだったらnullを返す。
-     *
-     * @param str
-     * @return
      */
     public static String emptyToNull(String str) {
         return isEmpty(str) ? null : str;
@@ -121,9 +112,6 @@ public class StringUtil {
 
     /**
      * 全角英数を半角英数に変換する
-     *
-     * @param s
-     * @return
      */
     public static String zenkakuEngToHankakuEng(String s) {
         StringBuffer sb = new StringBuffer(s);
@@ -167,9 +155,6 @@ public class StringUtil {
 
     /**
      * 全角文字を半角文字に変更する
-     *
-     * @param s
-     * @return
      */
     public static String zenkakuHiraganaToZenkakuKatakana(String s) {
         StringBuffer sb = new StringBuffer(s);
@@ -233,10 +218,6 @@ public class StringUtil {
 
     /**
      * 日本語を意識してJavaの辞書順に並び替える
-     *
-     * @param a
-     * @param b
-     * @return
      */
     public static int compareString(String a, String b) {
         a = zenkakuHiraganaToZenkakuKatakana(a.toLowerCase());
@@ -254,9 +235,6 @@ public class StringUtil {
     /**
      * 指定時刻を文字列に変換する
      * 内容はyyyyMMdd-hh:mm:ss.SSとなる。
-     *
-     * @param date
-     * @return
      */
     public static String toString(Date date) {
         return DEFAULT_FORMATTER.format(date);
@@ -264,9 +242,6 @@ public class StringUtil {
 
     /**
      * yyyyMMdd-hh:mm:ss.SSフォーマットの文字列をDateに変換する
-     *
-     * @param date
-     * @return
      */
     public static Date toDate(String date) {
         try {
@@ -278,9 +253,6 @@ public class StringUtil {
 
     /**
      * EXIF記録されている時刻から日時に変換する
-     *
-     * @param exifDate
-     * @return
      */
     public static Date toExifDate(String exifDate) {
         try {
@@ -330,9 +302,6 @@ public class StringUtil {
 
     /**
      * base64エンコードする
-     *
-     * @param buffer
-     * @return
      */
     public static String toString(byte[] buffer) {
         return base64Converter.encode(buffer);
@@ -340,9 +309,6 @@ public class StringUtil {
 
     /**
      * base64文字列をバイト配列へ変換する
-     *
-     * @param base64
-     * @return
      */
     public static byte[] toByteArray(String base64) {
         return base64Converter.decode(base64);
@@ -363,9 +329,6 @@ public class StringUtil {
 
     /**
      * 16進数表現に変換する
-     *
-     * @param bytes
-     * @return
      */
     public static String toHexString(byte[] bytes) {
         StringBuffer sBuffer = new StringBuffer(bytes.length * 2);
@@ -383,10 +346,6 @@ public class StringUtil {
 
     /**
      * 16進数変換を行う
-     *
-     * @param intHex
-     * @param defValue
-     * @return
      */
     public static long parseHex(String intHex, long defValue) {
         if (StringUtil.isEmpty(intHex)) {
@@ -411,9 +370,6 @@ public class StringUtil {
 
     /**
      * WebColor RGBをARGB形式に変換する
-     *
-     * @param webColor
-     * @return
      */
     public static int parseWebColorRGB2XRGB(String webColor) {
         int rgb = (int) (parseHex(webColor, 0x00000000FFFFFFFF) & 0x0000000000FFFFFFL);
@@ -422,9 +378,6 @@ public class StringUtil {
 
     /**
      * WebColor ARGBをARGB形式に変換する
-     *
-     * @param webColor
-     * @return
      */
     public static int parseWebColorARGB2ARGB(String webColor) {
         int argb = (int) (parseHex(webColor, 0x00000000FFFFFFFF) & 0x00000000FFFFFFFFL);

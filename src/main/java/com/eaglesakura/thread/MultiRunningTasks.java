@@ -1,9 +1,9 @@
 package com.eaglesakura.thread;
 
+import com.eaglesakura.util.Util;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import com.eaglesakura.util.Util;
 
 /**
  * 並列的に複数のタスクの実行を行う。<BR>
@@ -16,23 +16,18 @@ public class MultiRunningTasks {
          * 開始時に呼ばれる。<BR>
          * この処理は同時に複数呼ばれることはない。
          *
-         * @param runnner
          * @return falseを返した場合、タスクの実行を行わない。
          */
         boolean begin(MultiRunningTasks runnner);
 
         /**
          * 実際の処理を行わせる。
-         *
-         * @param runner
          */
         void run(MultiRunningTasks runner);
 
         /**
          * 終了時に呼ばれる。<BR>
          * この処理は同時に複数呼ばれることはない。
-         *
-         * @param runner
          */
         void finish(MultiRunningTasks runner);
     }
@@ -52,8 +47,6 @@ public class MultiRunningTasks {
 
     /**
      * タスクを後ろに追加する。
-     *
-     * @param task
      */
     public synchronized MultiRunningTasks pushBack(Task task) {
         synchronized (this) {
@@ -64,8 +57,6 @@ public class MultiRunningTasks {
 
     /**
      * タスクを後ろに追加する
-     *
-     * @param runnable
      */
     public MultiRunningTasks pushBack(final Runnable runnable) {
         return pushBack(new Task() {
@@ -87,8 +78,6 @@ public class MultiRunningTasks {
 
     /**
      * タスクを前に追加する。
-     *
-     * @param task
      */
     public synchronized void pushFront(Task task) {
         synchronized (this) {
@@ -128,8 +117,6 @@ public class MultiRunningTasks {
 
     /**
      * スレッドを常にプールする場合はtrue、不要なスレッドを廃棄する場合はfalse
-     *
-     * @param pool
      */
     public void setThreadPoolMode(boolean pool) {
         this.exit = !pool;
@@ -189,8 +176,6 @@ public class MultiRunningTasks {
 
     /**
      * 次処理すべきタスクを取得する。
-     *
-     * @return
      */
     private synchronized Task nextTask() {
         synchronized (this) {
@@ -212,8 +197,6 @@ public class MultiRunningTasks {
 
     /**
      * タスクを終了させる。
-     *
-     * @param task
      */
     synchronized void finish(Task task) {
         task.finish(this);
@@ -221,8 +204,6 @@ public class MultiRunningTasks {
 
     /**
      * 残タスク数を取得する。
-     *
-     * @return
      */
     public int getTaskCount() {
         return tasks.size() + threads.size();

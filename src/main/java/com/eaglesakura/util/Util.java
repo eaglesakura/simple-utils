@@ -28,9 +28,6 @@ public class Util {
 
     /**
      * 指定日の開始時刻を取得する
-     *
-     * @param date
-     * @return
      */
     public static Date getDateStart(Date date) {
         long oneDay = 1000 * 60 * 60 * 24;
@@ -41,9 +38,6 @@ public class Util {
 
     /**
      * 指定日の終了時刻を取得する
-     *
-     * @param date
-     * @return
      */
     public static Date getDateEnd(Date date) {
         return new Date(getDateStart(date).getTime() + (1000 * 60 * 60 * 24) - 1);
@@ -68,8 +62,6 @@ public class Util {
 
     /**
      * 単純にsleepさせる。
-     *
-     * @param timems
      */
     public static void sleep(long timems) {
         if (timems <= 0) {
@@ -86,9 +78,6 @@ public class Util {
 
     /**
      * nano秒単位でsleepを行う
-     *
-     * @param ms
-     * @param nano
      */
     public static void nanosleep(long ms, int nano) {
         if (ms <= 0 && nano <= 0) {
@@ -105,10 +94,6 @@ public class Util {
 
     /**
      * itemが重複しないようにaddする
-     *
-     * @param list
-     * @param item
-     * @return
      */
     public static <T> boolean addUnique(List<T> list, T item) {
         if (!list.contains(item)) {
@@ -121,11 +106,6 @@ public class Util {
 
     /**
      * アイテムを追加し、追加したインデックスを返す
-     *
-     * @param list
-     * @param item
-     * @param <T>
-     * @return
      */
     public static <T> int addUniqueRequestIndex(List<T> list, T item) {
         addUnique(list, item);
@@ -157,12 +137,6 @@ public class Util {
 
     /**
      * Mapに変換する
-     *
-     * @param values
-     * @param keyCreator
-     * @param <Key>
-     * @param <Value>
-     * @return
      */
     public static <Key, Value> Map<Key, Value> asMap(Collection<Value> values, KeyCreator<Key, Value> keyCreator) {
         Map<Key, Value> result = new HashMap<>();

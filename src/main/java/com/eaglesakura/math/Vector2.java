@@ -24,9 +24,6 @@ public final class Vector2 {
 
     /**
      * 値を指定して初期化する。
-     *
-     * @param x
-     * @param y
      */
     public Vector2(float x, float y) {
         this.x = x;
@@ -35,8 +32,6 @@ public final class Vector2 {
 
     /**
      * コピーを行う。
-     *
-     * @param origin
      */
     public Vector2(Vector2 origin) {
         set(origin);
@@ -44,8 +39,6 @@ public final class Vector2 {
 
     /**
      * 値のコピーを行う。
-     *
-     * @param origin
      */
     public void set(Vector2 origin) {
         x = origin.x;
@@ -62,9 +55,6 @@ public final class Vector2 {
 
     /**
      * 内積を取得する。
-     *
-     * @param v
-     * @return
      */
     public float dot(Vector2 v) {
         return (x * v.x) + (y * v.y);
@@ -72,8 +62,6 @@ public final class Vector2 {
 
     /**
      * XYをmul倍する。
-     *
-     * @param mul
      */
     public void mul(float mul) {
         x *= mul;
@@ -82,8 +70,6 @@ public final class Vector2 {
 
     /**
      * 長さを取得する。
-     *
-     * @return
      */
     public float length() {
         return (float) Math.sqrt((double) ((x * x) + (y * y)));
@@ -125,8 +111,6 @@ public final class Vector2 {
 
     /**
      * 整合性確認。
-     *
-     * @param obj
      */
     @Override
     public boolean equals(Object obj) {
@@ -141,8 +125,6 @@ public final class Vector2 {
 
     /**
      * 文字列変換を行う。
-     *
-     * @return
      */
     @Override
     public String toString() {
@@ -153,10 +135,6 @@ public final class Vector2 {
      * p0からp1を見た場合の角度をdegreeで求める
      * <br>
      * 角度は真上方向を0として反時計回りに360度で求める。
-     *
-     * @param p0
-     * @param p1
-     * @return
      */
     public static double degree(Vector2 p0, Vector2 p1) {
         final double length = Vector2.length(p0.x, p0.y, p1.x, p1.y);

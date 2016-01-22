@@ -25,10 +25,6 @@ public final class Vector3 {
 
     /**
      * 値を指定して初期化する。
-     *
-     * @param x
-     * @param y
-     * @param z
      */
     public Vector3(float x, float y, float z) {
         this.x = x;
@@ -38,8 +34,6 @@ public final class Vector3 {
 
     /**
      * コピーを行う。
-     *
-     * @param origin
      */
     public Vector3(Vector3 origin) {
         set(origin);
@@ -47,8 +41,6 @@ public final class Vector3 {
 
     /**
      * 値のコピーを行う。
-     *
-     * @param origin
      */
     public void set(Vector3 origin) {
         x = origin.x;
@@ -58,10 +50,6 @@ public final class Vector3 {
 
     /**
      * ベクトル乗算を行う。
-     *
-     * @param _x
-     * @param _y
-     * @param _z
      */
     public void mul(float _x, float _y, float _z) {
         x *= _x;
@@ -80,10 +68,6 @@ public final class Vector3 {
 
     /**
      * 内積を取得する。
-     *
-     * @param v
-     *
-     * @return
      */
     public float dot(Vector3 v) {
         return (x * v.x) + (y * v.y) + (z * v.z);
@@ -91,12 +75,6 @@ public final class Vector3 {
 
     /**
      * 内積を取得する。
-     *
-     * @param _x
-     * @param _y
-     * @param _z
-     *
-     * @return
      */
     public float dot(float _x, float _y, float _z) {
         return (x * _x) + (y * _y) + (z * _z);
@@ -104,11 +82,6 @@ public final class Vector3 {
 
     /**
      * 外積を取得する。
-     *
-     * @param v
-     * @param result
-     *
-     * @return
      */
     public Vector3 cross(Vector3 v, Vector3 result) {
         result.set((y * v.z) - (z * v.y), (z * v.x) - (x * v.z), (x * v.y) - (y * v.x));
@@ -117,10 +90,6 @@ public final class Vector3 {
 
     /**
      * 外積を求め、このインスタンスに格納する。
-     *
-     * @param _x
-     * @param _y
-     * @param _z
      */
     public void cross(float _x, float _y, float _z) {
         set((y * _z) - (z * _y), (z * _x) - (x * _z), (x * _y) - (y * _x));
@@ -128,9 +97,6 @@ public final class Vector3 {
 
     /**
      * v0 - v1を計算し、このインスタンスに格納する。
-     *
-     * @param v0
-     * @param v1
      */
     public void sub(Vector3 v0, Vector3 v1) {
         x = v0.x - v1.x;
@@ -140,8 +106,6 @@ public final class Vector3 {
 
     /**
      * ベクトル要素を加算する。
-     *
-     * @param v
      */
     public void add(Vector3 v) {
         x += v.x;
@@ -151,10 +115,6 @@ public final class Vector3 {
 
     /**
      * ベクトルの要素を加算する。
-     *
-     * @param _x
-     * @param _y
-     * @param _z
      */
     public void add(float _x, float _y, float _z) {
         x += _x;
@@ -164,8 +124,6 @@ public final class Vector3 {
 
     /**
      * 長さを取得する。
-     *
-     * @return
      */
     public float length() {
         return (float) Math.sqrt((double) ((x * x) + (y * y) + (z * z)));
@@ -173,10 +131,6 @@ public final class Vector3 {
 
     /**
      * ベクトル間の距離を取得する。
-     *
-     * @param v
-     *
-     * @return
      */
     public float length(Vector3 v) {
         float _x = x - v.x;
@@ -198,11 +152,6 @@ public final class Vector3 {
     /**
      * 2つのベクトルを保管する。<BR>
      * leapは０．０ｆ～１．０ｆである必要がある。
-     *
-     * @param v0
-     * @param v1
-     * @param leap
-     * @param result
      */
     public static void leap(Vector3 v0, Vector3 v1, float leap, Vector3 result) {
         result.x = (v1.x * leap) + (v0.x * (1.0f - leap));
@@ -212,8 +161,6 @@ public final class Vector3 {
 
     /**
      * 整合性確認。
-     *
-     * @param obj
      */
     @Override
     public boolean equals(Object obj) {
@@ -236,8 +183,6 @@ public final class Vector3 {
 
     /**
      * 文字列変換を行う。
-     *
-     * @return
      */
     @Override
     public String toString() {

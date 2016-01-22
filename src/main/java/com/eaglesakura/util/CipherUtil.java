@@ -21,7 +21,6 @@ public class CipherUtil {
      *
      * @param buffer    暗号化するバッファ
      * @param encodeKey 暗号化キー
-     *
      * @return 暗号化されたバッファ
      */
     public static byte[] encode(byte[] buffer, Key encodeKey) {
@@ -43,7 +42,6 @@ public class CipherUtil {
      *
      * @param buffer    暗号化されたバッファ
      * @param decodeKey 復号化するキー
-     *
      * @return 復号化されたバッファ
      */
     public static byte[] decode(byte[] buffer, Key decodeKey) {
@@ -86,7 +84,6 @@ public class CipherUtil {
      * $ openssl pkcs8 -in private.pem -outform der -out private.p8.der -topk8 -nocrypt
      *
      * @param derFileBuffer consoleで生成された*.derファイルのバッファ
-     *
      * @return 秘密鍵
      */
     public static PrivateKey loadPrivateKey(byte[] derFileBuffer) {
@@ -108,7 +105,6 @@ public class CipherUtil {
      * $ openssl rsa -in private.pem -pubout -outform DER -out public.der
      *
      * @param derFileBuffer consoleで生成された*.derファイルのバッファ
-     *
      * @return 公開鍵
      */
     public static PublicKey loadPublicKey(byte[] derFileBuffer) {

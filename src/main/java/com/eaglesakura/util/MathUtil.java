@@ -5,10 +5,7 @@ public class MathUtil {
     /**
      * フラグ情報を設定する。
      *
-     * @param flg
-     * @param check
-     * @param is    ビットを立てる場合はtrue、下げる場合はfalse
-     * @return
+     * @param is ビットを立てる場合はtrue、下げる場合はfalse
      */
     public static final int setFlag(int flg, int check, boolean is) {
         if (is) {
@@ -21,11 +18,6 @@ public class MathUtil {
 
     /**
      * min ＜＝ result ＜＝ maxとなるようにnowを補正する。
-     *
-     * @param min
-     * @param max
-     * @param now
-     * @return
      */
     public static final int minmax(int min, int max, int now) {
         if (now < min)
@@ -37,11 +29,6 @@ public class MathUtil {
 
     /**
      * min ＜＝ result ＜＝ maxとなるようにnowを補正する。
-     *
-     * @param min
-     * @param max
-     * @param now
-     * @return
      */
     public static final float minmax(float min, float max, float now) {
         if (now < min)
@@ -105,10 +92,6 @@ public class MathUtil {
      * targetへの角度が180度を超える場合、正負反転させた角度を選択する
      * <br>
      * -360 ＜ return ＜＝ 360 となる。
-     *
-     * @param now
-     * @param target
-     * @return
      */
     public static final double calcNearDegree(double now, double target) {
         now = normalizeDegree(now);
@@ -220,10 +203,6 @@ public class MathUtil {
 
     /**
      * 特定のビットフラグが立っていることを検証する。
-     *
-     * @param flg
-     * @param check
-     * @return
      */
     public static final boolean isFlagOn(int flg, int check) {
         return (flg & check) != 0;
@@ -231,10 +210,6 @@ public class MathUtil {
 
     /**
      * 特定のビットフラグがすべて立っていることを検証する。
-     *
-     * @param flg
-     * @param check
-     * @return
      */
     public static final boolean isFlagOnAll(int flg, int check) {
         return (flg & check) == 0;
@@ -244,10 +219,6 @@ public class MathUtil {
      * 特定のフォーマットに合う数値に変換する
      * <br>
      * %.1f, 0.111111 -＞0.1
-     *
-     * @param format
-     * @param value
-     * @return
      */
     public static final double valueOf(String format, String value) {
         double temp = Double.valueOf(value);

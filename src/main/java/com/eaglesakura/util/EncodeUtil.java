@@ -11,9 +11,6 @@ public class EncodeUtil {
 
     /**
      * byte配列からMD5を求める
-     *
-     * @param buffer
-     * @return
      */
     public static String genMD5(byte[] buffer) {
         try {
@@ -38,8 +35,6 @@ public class EncodeUtil {
 
     /**
      * byte配列からMD5を求める
-     *
-     * @return
      */
     public static String genMD5(InputStream is) throws IOException {
         try {
@@ -72,9 +67,6 @@ public class EncodeUtil {
 
     /**
      * byte配列からMD5を求める
-     *
-     * @param buffer
-     * @return
      */
     public static String genSHA1(byte[] buffer) {
         try {
@@ -100,9 +92,6 @@ public class EncodeUtil {
     /**
      * データをGZIP圧縮するか、そのまま返却する
      * 容量の小さいほうが採用される。
-     *
-     * @param buffer
-     * @return
      */
     public static byte[] compressOrRaw(byte[] buffer) {
         if (buffer.length > 1024) {

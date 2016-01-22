@@ -33,7 +33,6 @@ public class IOUtil {
      *
      * @param input  コピー元
      * @param output コピー先
-     * @throws IOException
      */
     public static void copyTo(InputStream input, OutputStream output) throws IOException {
         copyTo(input, true, output, true);
@@ -46,7 +45,6 @@ public class IOUtil {
      * @param closeInput  終了時にinputを閉じる
      * @param output      コピー先
      * @param closeOutput 終了時にoutputを閉じる
-     * @throws IOException
      */
     public static void copyTo(InputStream input, boolean closeInput, OutputStream output, boolean closeOutput) throws IOException {
         try {
@@ -103,7 +101,6 @@ public class IOUtil {
      * @param is    読み込み対象のstream
      * @param close closeする場合はtrue
      * @return 読み取った文字列
-     * @throws IOException
      */
     public static String toString(InputStream is, boolean close) throws IOException {
         byte[] buffer = toByteArray(is, close);
@@ -150,7 +147,6 @@ public class IOUtil {
      * @param is    読み込み対象
      * @param close isを閉じるならtrue
      * @return 読み込んだbyte配列
-     * @throws IOException
      */
     public static byte[] toByteArray(InputStream is, boolean close) throws IOException {
         byte[] result = null;
@@ -210,7 +206,6 @@ public class IOUtil {
      *
      * @param src コピー元
      * @param dst コピー先
-     * @throws IOException
      */
     public static final void copyOrUpdate(File src, File dst) throws IOException {
         if (!dst.isFile()) {
@@ -487,9 +482,6 @@ public class IOUtil {
     /**
      * そこまでの道を含めてディレクトリを作成する。
      * {@link File#mkdirs()} を使用すべき
-     *
-     * @param dir
-     * @return
      */
     @Deprecated
     public static File mkdir(File dir) {
@@ -499,9 +491,6 @@ public class IOUtil {
     /**
      * そこまでの道を含めてディレクトリを作成する。
      * File.mkdirsはvoid戻りなので、１行で呼べるようにする。
-     *
-     * @param dir
-     * @return
      */
     public static File mkdirs(File dir) {
         dir.mkdirs();
@@ -613,7 +602,6 @@ public class IOUtil {
      *
      * @param stream       読み込み対象
      * @param outDirectory 書き込み対象
-     * @throws IOException
      */
     public static void unzip(InputStream stream, File outDirectory) throws IOException {
         ZipInputStream is = new ZipInputStream(stream);
@@ -648,7 +636,6 @@ public class IOUtil {
      *
      * @param zipFile      ZIPファイル
      * @param outDirectory 解凍ディレクトリ
-     * @throws IOException
      */
     public static void unzip(File zipFile, File outDirectory) throws IOException {
         InputStream is = new FileInputStream(zipFile);
