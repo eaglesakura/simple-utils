@@ -28,11 +28,18 @@ public class Timer {
     }
 
     /**
-     * ストップウォッチを停止し、時間を取得する。
+     * ストップウォッチを停止し、時間をミリ秒で取得する。
      */
     public long end() {
         endTime = System.currentTimeMillis();
         return endTime - startTime;
+    }
+
+    /**
+     * ストップウォッチを停止し、時間を秒単位で取得する
+     */
+    public double endSec() {
+        return ((double) end()) / 1000.0;
     }
 
     public void setEndTime(long endTime) {
