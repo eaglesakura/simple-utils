@@ -177,8 +177,7 @@ public class StringUtil {
     }
 
     /**
-     * @param str
-     * @return
+     * Macエンコードの文字列を、Winで使用可能な文字列に変換する
      */
     public static String macStringToWinString(String str) {
         final int indexOffsetDakuten = ('が' - 'か');
