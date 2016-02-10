@@ -38,8 +38,8 @@ public class StringUtil {
                 // init for Android
                 try {
                     base64Class = Class.forName("android.util.Base64");
-                    base64Encode = base64Class.getMethod("encodeToString", byte[].class);
-                    base64Decode = base64Class.getMethod("decode", byte[].class);
+                    base64Encode = base64Class.getMethod("encodeToString", byte[].class, int.class);
+                    base64Decode = base64Class.getMethod("decode", String.class, int.class);
                     flags = NO_CLOSE | NO_PADDING | NO_WRAP | URL_SAFE;
                     return this;
                 } catch (Exception e) {
@@ -48,8 +48,8 @@ public class StringUtil {
                 // init for Apache
                 try {
                     base64Class = Class.forName("org.apache.commons.codec.binary.Base64");
-                    base64Encode = base64Class.getMethod("encodeBase64", byte[].class);
-                    base64Decode = base64Class.getMethod("decodeBase64", byte[].class);
+                    base64Encode = base64Class.getMethod("encodeBase64", byte[].class, int.class);
+                    base64Decode = base64Class.getMethod("decodeBase64", String.class, int.class);
                     flags = 0;
                     return this;
                 } catch (Exception e) {
