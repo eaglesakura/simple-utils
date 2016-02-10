@@ -7,8 +7,6 @@ import java.util.Date;
 
 public class StringUtil {
 
-    public static final String SHIT_JIS = "Shift_JIS";
-
     static {
         base64Converter = new Base64Converter() {
             /**
