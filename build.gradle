@@ -39,6 +39,7 @@ dependencies {
     } else {
         compile 'com.eaglesakura:simple-logger:1.+'
     }
+    testCompile 'junit:junit:4.12'
 }
 
 apply plugin: 'java'

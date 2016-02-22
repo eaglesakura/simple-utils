@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * リフレクション関係のUtil
  */
-public class RefrectionUtil {
+public class ReflectionUtil {
     /**
      * ListがImplされている場合はtrueを返却する
      */
@@ -23,17 +23,15 @@ public class RefrectionUtil {
     /**
      * Listの引数に指定されたClassを取得する
      */
-    public static Class getArrayClass(Field field) {
+    public static Class getListGenericClass(Field field) {
         if (!isListInterface(field)) {
             throw new IllegalArgumentException();
         }
 
         try {
             Type genericType = field.getGenericType();
-            Class result = (Class) ((ParameterizedType) genericType).getActualTypeArguments()[0];
-            return result;
+            return (Class) ((ParameterizedType) genericType).getActualTypeArguments()[0];
         } catch (Exception e) {
-            LogUtil.log(e);
             throw new IllegalArgumentException();
         }
     }
