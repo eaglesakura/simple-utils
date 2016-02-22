@@ -7,6 +7,7 @@
  * 1.0.6   : add MRT
  * 1.0.7   : 細かい機能追加
  * 1.1.x   : 自動デプロイに移行
+ * 1.1.x   : リフレクション用Utilを追加
  */
 def ARTIFACT_VERSION = "1.1"
 def ARTIFACT_NAME = file(".").absoluteFile.name
