@@ -120,8 +120,7 @@ public class EncodeUtil {
             if (resultBuffer == null) {
                 return buffer;
             }
-
-            LogUtil.log("decompress gzip(%d bytes) -> raw(%d bytes) %.2f compress", buffer.length, resultBuffer.length, (float) buffer.length / (float) resultBuffer.length);
+//            LogUtil.log("decompress gzip(%d bytes) -> raw(%d bytes) %.2f compress", buffer.length, resultBuffer.length, (float) buffer.length / (float) resultBuffer.length);
             return resultBuffer;
         } else {
             return buffer;
