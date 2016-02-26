@@ -39,7 +39,28 @@ public class Timer {
      * ストップウォッチを停止し、時間を秒単位で取得する
      */
     public double endSec() {
-        return ((double) end()) / 1000.0;
+        return msToSec(end());
+    }
+
+    /**
+     * ストップウォッチを停止し、時間を分単位で取得する
+     */
+    public double endMinute() {
+        return msToMinute(end());
+    }
+
+    /**
+     * ストップウォッチを停止し、時間をHour単位で取得する
+     */
+    public double endHour() {
+        return msToHour(end());
+    }
+
+    /**
+     * ストップウォッチを停止し、時間を日単位で取得する
+     */
+    public double endDay() {
+        return msToDay(end());
     }
 
     public void setEndTime(long endTime) {
