@@ -12,7 +12,12 @@ public class StringUtil {
             /**
              * base64 encode/decode
              */
-            private Class base64Class = null;
+            private Object mBase64EncoderObj = null;
+
+            /**
+             * base64 encode/decode
+             */
+            private Object mBase64DecoderObj = null;
 
             /**
              * base64 encode
@@ -26,52 +31,79 @@ public class StringUtil {
 
             private int flags;
 
-            static final int URL_SAFE = 8;
+            static final int ANDROID_URL_SAFE = 8;
 
-            static final int NO_WRAP = 2;
+            static final int ANDROID_NO_WRAP = 2;
 
-            static final int NO_PADDING = 1;
+            static final int ANDROID_NO_PADDING = 1;
 
-            static final int NO_CLOSE = 16;
+            static final int ANDROID_NO_CLOSE = 16;
 
             Base64Converter init() {
                 // init for Android
                 try {
-                    base64Class = Class.forName("android.util.Base64");
-                    base64Encode = base64Class.getMethod("encodeToString", byte[].class, int.class);
-                    base64Decode = base64Class.getMethod("decode", String.class, int.class);
-                    flags = NO_CLOSE | NO_PADDING | NO_WRAP | URL_SAFE;
+                    mBase64EncoderObj = Class.forName("android.util.Base64");
+                    mBase64DecoderObj = mBase64EncoderObj;
+                    base64Encode = ((Class) mBase64EncoderObj).getMethod("encodeToString", byte[].class, int.class);
+                    base64Decode = ((Class) mBase64EncoderObj).getMethod("decode", String.class, int.class);
+                    flags = ANDROID_NO_CLOSE | ANDROID_NO_PADDING | ANDROID_NO_WRAP | ANDROID_URL_SAFE;
                     return this;
                 } catch (Exception e) {
                 }
 
                 // init for Apache
                 try {
-                    base64Class = Class.forName("org.apache.commons.codec.binary.Base64");
-                    base64Encode = base64Class.getMethod("encodeBase64", byte[].class, int.class);
-                    base64Decode = base64Class.getMethod("decodeBase64", String.class, int.class);
-                    flags = 0;
+                    mBase64EncoderObj = Class.forName("org.apache.commons.codec.binary.Base64");
+                    mBase64DecoderObj = mBase64EncoderObj;
+                    base64Encode = ((Class) mBase64EncoderObj).getMethod("encodeBase64String", byte[].class);
+                    base64Decode = ((Class) mBase64EncoderObj).getMethod("decodeBase64", String.class);
                     return this;
                 } catch (Exception e) {
                 }
-                throw new IllegalStateException();
+
+                // init java8
+                try {
+                    Class Base64 = Class.forName("java.util.Base64");
+                    {
+                        Method getEncoder = Base64.getMethod("getEncoder");
+                        mBase64EncoderObj = getEncoder.invoke(Base64);
+                        base64Encode = mBase64EncoderObj.getClass().getMethod("encodeToString", byte[].class);
+                    }
+                    {
+                        Method getDecoder = Base64.getMethod("getDecoder");
+                        mBase64DecoderObj = getDecoder.invoke(Base64);
+                        base64Decode = mBase64DecoderObj.getClass().getMethod("decode", String.class);
+                    }
+
+                    return this;
+                } catch (Exception e) {
+                    throw new IllegalStateException(e);
+                }
             }
 
             @Override
             public String encode(byte[] buffer) {
                 try {
-                    return (String) base64Encode.invoke(base64Class, buffer, flags /* Base64.Default */);
+                    if (flags != 0) {
+                        return (String) base64Encode.invoke(mBase64EncoderObj, buffer, flags /* Base64.Default */);
+                    } else {
+                        return (String) base64Encode.invoke(mBase64EncoderObj, buffer);
+                    }
                 } catch (Exception e) {
-                    throw new IllegalStateException();
+                    throw new IllegalStateException(e);
                 }
             }
 
             @Override
             public byte[] decode(String base64) {
                 try {
-                    return (byte[]) base64Decode.invoke(base64Class, base64, flags /* Base64.Default */);
+                    if (flags != 0) {
+                        return (byte[]) base64Decode.invoke(mBase64DecoderObj, base64, flags /* Base64.Default */);
+                    } else {
+                        return (byte[]) base64Decode.invoke(mBase64DecoderObj, base64);
+                    }
                 } catch (Exception e) {
-                    throw new IllegalStateException();
+                    throw new IllegalStateException(e);
                 }
             }
         }.init();
@@ -380,5 +412,4 @@ public class StringUtil {
         int argb = (int) (parseHex(webColor, 0x00000000FFFFFFFF) & 0x00000000FFFFFFFFL);
         return argb;
     }
-
 }
