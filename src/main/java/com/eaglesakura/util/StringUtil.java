@@ -55,9 +55,8 @@ public class StringUtil {
                 try {
                     mBase64EncoderObj = Class.forName("org.apache.commons.codec.binary.Base64");
                     mBase64DecoderObj = mBase64EncoderObj;
-                    base64Encode = ((Class) mBase64EncoderObj).getMethod("encodeBase64", byte[].class);
+                    base64Encode = ((Class) mBase64EncoderObj).getMethod("encodeBase64String", byte[].class);
                     base64Decode = ((Class) mBase64EncoderObj).getMethod("decodeBase64", String.class);
-                    flags = 0;
                     return this;
                 } catch (Exception e) {
                 }
