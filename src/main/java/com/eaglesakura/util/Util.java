@@ -194,7 +194,7 @@ public class Util {
         List<R> result = new ArrayList<>(origin.size());
         int index = 0;
         for (T item : origin) {
-            result.set(index++, converter.as(item));
+            result.add(index++, converter.as(item));
         }
         return result;
     }
