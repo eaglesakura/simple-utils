@@ -3,6 +3,7 @@ package com.eaglesakura.util;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -176,5 +177,24 @@ public class Util {
         } catch (Exception e) {
             return null;
         }
+    }
+
+    public interface ItemConverter<T, R> {
+        R as(T origin);
+    }
+
+    /**
+     * オブジェクトリストを別なオブジェクトに変換する
+     */
+    public static <T, R> List<R> convert(List<T> origin, ItemConverter<T, R> converter) {
+        if (isEmpty(origin)) {
+            return Collections.emptyList();
+        }
+
+        List<R> result = new ArrayList<>(origin.size());
+        for (T item : origin) {
+            result.add(converter.as(item));
+        }
+        return result;
     }
 }
