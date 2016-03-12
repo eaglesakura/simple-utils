@@ -1,5 +1,6 @@
 package com.eaglesakura.util;
 
+import java.lang.reflect.Method;
 import java.util.UUID;
 
 /**
@@ -104,5 +105,36 @@ public class RandomUtil {
             buffer[i] = randInt8();
         }
         return buffer;
+    }
+
+
+    /**
+     * ランダムなenumを取得する
+     */
+    public static <T extends Enum> T randEnum(Class<T> clazz) {
+        try {
+            Method valuesMethod = clazz.getMethod("values");
+            T[] values = (T[]) valuesMethod.invoke(clazz);
+            return values[randUInt8() % values.length];
+        } catch (Exception e) {
+            throw new IllegalStateException(e);
+        }
+    }
+
+    /**
+     * nullを含めたランダムなenumを取得する
+     */
+    public static <T extends Enum> T randEnumWithNull(Class<T> clazz) {
+        try {
+            Method valuesMethod = clazz.getMethod("values");
+            T[] values = (T[]) valuesMethod.invoke(clazz);
+            if (randUInt8() % (values.length + 1) == 0) {
+                return null;
+            } else {
+                return values[randUInt8() % values.length];
+            }
+        } catch (Exception e) {
+            return null;
+        }
     }
 }
