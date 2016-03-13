@@ -30,6 +30,7 @@ public class Util {
     /**
      * 指定日の開始時刻を取得する
      */
+    @Deprecated
     public static Date getDateStart(Date date) {
         long oneDay = 1000 * 60 * 60 * 24;
         long now = date.getTime();
@@ -40,6 +41,7 @@ public class Util {
     /**
      * 指定日の終了時刻を取得する
      */
+    @Deprecated
     public static Date getDateEnd(Date date) {
         return new Date(getDateStart(date).getTime() + (1000 * 60 * 60 * 24) - 1);
     }
@@ -47,6 +49,7 @@ public class Util {
     /**
      * 今日の0時0分を取得する
      */
+    @Deprecated
     public static Date getTodayStart() {
         final long oneDay = 1000 * 60 * 60 * 24;
         long now = System.currentTimeMillis();
@@ -57,6 +60,7 @@ public class Util {
     /**
      * 今日の23時59分59秒....を取得する
      */
+    @Deprecated
     public static Date getTodayEnd() {
         return new Date(getTodayStart().getTime() + (1000 * 60 * 60 * 24) - 1);
     }
@@ -95,7 +99,10 @@ public class Util {
 
     /**
      * itemが重複しないようにaddする
+     *
+     * @see CollectionUtil#addUnique(List, Object)
      */
+    @Deprecated
     public static <T> boolean addUnique(List<T> list, T item) {
         if (!list.contains(item)) {
             list.add(item);
@@ -107,7 +114,10 @@ public class Util {
 
     /**
      * アイテムを追加し、追加したインデックスを返す
+     *
+     * @see CollectionUtil#addUniqueRequestIndex(List, Object)
      */
+    @Deprecated
     public static <T> int addUniqueRequestIndex(List<T> list, T item) {
         addUnique(list, item);
         return list.indexOf(item);
@@ -115,7 +125,9 @@ public class Util {
 
     /**
      * @see Collection#toArray(Object[])
+     * @see CollectionUtil#asArray(Collection, Object[])
      */
+    @Deprecated
     public static <T> T[] convert(Collection<T> c, T[] array) {
         return c.toArray(array);
     }
@@ -124,20 +136,27 @@ public class Util {
      * @param array 変換元配列
      * @param <T>   type
      * @return 変換したList
+     * @see CollectionUtil#asList(Object[])
      */
+    @Deprecated
     public static <T> List<T> convert(T[] array) {
-        return new ArrayList<T>(Arrays.asList(array));
+        return new ArrayList<>(Arrays.asList(array));
     }
 
     /**
      * 2つの配列をコピーする
+     *
+     * @see CollectionUtil#copyOf(Object[])
      */
+    @Deprecated
     public static <T> T[] copy(T[] array) {
         return Arrays.copyOf(array, array.length);
     }
 
     /**
      * Mapに変換する
+     *
+     * @see CollectionUtil#asMap(Collection, CollectionUtil.Converter)
      */
     public static <Key, Value> Map<Key, Value> asMap(Collection<Value> values, KeyCreator<Key, Value> keyCreator) {
         Map<Key, Value> result = new HashMap<>();
@@ -147,18 +166,34 @@ public class Util {
         return result;
     }
 
+    /**
+     * @see com.eaglesakura.util.CollectionUtil.Converter
+     */
+    @Deprecated
     public interface KeyCreator<Key, Value> {
         Key createKey(Value value);
     }
 
+    /**
+     * @see CollectionUtil#isEmpty(byte[])
+     */
+    @Deprecated
     public static boolean isEmpty(byte[] item) {
         return item == null || item.length == 0;
     }
 
+    /**
+     * @see CollectionUtil#isEmpty(Object[])
+     */
+    @Deprecated
     public static <T> boolean isEmpty(T[] item) {
         return item == null || item.length == 0;
     }
 
+    /**
+     * @see CollectionUtil#isEmpty(Collection)
+     */
+    @Deprecated
     public static <T> boolean isEmpty(List<T> item) {
         return item == null || item.isEmpty();
     }
@@ -179,13 +214,17 @@ public class Util {
         }
     }
 
+    @Deprecated
     public interface ItemConverter<T, R> {
         R as(T origin);
     }
 
     /**
      * オブジェクトリストを別なオブジェクトに変換する
+     *
+     * @see CollectionUtil#asOtherList(List, CollectionUtil.Converter)
      */
+    @Deprecated
     public static <T, R> List<R> convert(List<T> origin, ItemConverter<T, R> converter) {
         if (isEmpty(origin)) {
             return Collections.emptyList();

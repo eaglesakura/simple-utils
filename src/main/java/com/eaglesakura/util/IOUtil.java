@@ -608,7 +608,7 @@ public class IOUtil {
         ZipEntry entry;
         while ((entry = is.getNextEntry()) != null) {
             File outFile = outDirectory;
-            List<String> path = Util.convert(entry.getName().split("/"));
+            List<String> path = CollectionUtil.asList(entry.getName().split("/"));
 
             // "/"で区切られていたら、パスを追加する
             while (path.size() > 1) {
