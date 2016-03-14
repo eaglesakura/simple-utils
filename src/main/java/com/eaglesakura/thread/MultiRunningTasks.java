@@ -9,7 +9,10 @@ import java.util.List;
  * 並列的に複数のタスクの実行を行う。<BR>
  * タスク数に制限はないが、限界は考えて使ったほうがいい。<BR>
  * タスクが開始される順番は確定されるが、終了する順番は保証されない。
+ *
+ * @see java.util.concurrent.ThreadPoolExecutor
  */
+@Deprecated
 public class MultiRunningTasks {
     public interface Task {
         /**

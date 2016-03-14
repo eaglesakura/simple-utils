@@ -110,6 +110,19 @@ public class StringUtil {
     }
 
     /**
+     * 引数全ての文字列が空であればtrueを返す
+     */
+    public static boolean allEmpty(String... args) {
+        for (String arg : args) {
+            if (!StringUtil.isEmpty(arg)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
      * 引数全ての文字列が有効であればtrueを返す
      */
     public static boolean allNotEmpty(String... args) {
