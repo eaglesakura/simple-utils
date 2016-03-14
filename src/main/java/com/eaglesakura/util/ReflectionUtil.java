@@ -9,6 +9,18 @@ import java.util.List;
  * リフレクション関係のUtil
  */
 public class ReflectionUtil {
+
+    /**
+     * objがclazzクラスかサブクラスである場合trueを返す
+     */
+    public static boolean instanceOf(Object obj, Class<?> clazz) {
+        try {
+            return obj.getClass().asSubclass(clazz) != null;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     /**
      * ListがImplされている場合はtrueを返却する
      */
