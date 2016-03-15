@@ -1,5 +1,6 @@
 package com.eaglesakura.util;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -54,4 +55,53 @@ public class ReflectionUtil {
     public static boolean isListInterface(Field field) {
         return isListInterface(field.getType());
     }
+
+    /**
+     * コンストラクタを取得するか、nullを返却する
+     */
+    public static <T> Constructor<T> getConstructorOrNull(Class<T> clazz, Class... args) {
+        try {
+            return clazz.getConstructor(args);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    /**
+     * オブジェクトを生成するか、nullを返却する
+     */
+    public static <T> T newInstanceOrNull(Constructor<T> constructor, Object... args) {
+        if (constructor == null) {
+            return null;
+        }
+
+        try {
+            return constructor.newInstance(args);
+        } catch (Exception e) {
+            throw new Error(e);
+        }
+    }
+
+    /**
+     * Classのインスタンスを生成するか、nullを返却する
+     */
+    public static <T> T newInstanceOrNull(String className) {
+        try {
+            return (T) Class.forName(className).newInstance();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    /**
+     * Classのインスタンスを生成するか、nullを返却する
+     */
+    public static <T> T newInstanceOrNull(Class<T> clazz) {
+        try {
+            return clazz.newInstance();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
 }
