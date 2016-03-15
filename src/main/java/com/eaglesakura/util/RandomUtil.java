@@ -53,7 +53,7 @@ public class RandomUtil {
      * 2byteの0以上整数を生成する
      */
     public static short randUInt16() {
-        return (short) ((int) randInt16() & 0x00007FFFF);
+        return (short) ((int) randInt16() & 0x00007FFF);
     }
 
     /**
@@ -100,7 +100,14 @@ public class RandomUtil {
      * ランダムな長さ・内容のバイト配列を生成する
      */
     public static byte[] randBytes() {
-        byte[] buffer = new byte[32 + randUInt8()];
+        return randBytes(32 + randUInt8());
+    }
+
+    /**
+     * ランダムな長さ・内容のバイト配列を生成する
+     */
+    public static byte[] randBytes(int length) {
+        byte[] buffer = new byte[length];
         for (int i = 0; i < buffer.length; ++i) {
             buffer[i] = randInt8();
         }

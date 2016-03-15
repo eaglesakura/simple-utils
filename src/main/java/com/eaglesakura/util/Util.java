@@ -198,6 +198,10 @@ public class Util {
         return item == null || item.isEmpty();
     }
 
+    /**
+     * @see ReflectionUtil#newInstanceOrNull(String)
+     */
+    @Deprecated
     public static <T> T newInstanceOrNull(String className) {
         try {
             return (T) Class.forName(className).newInstance();
@@ -206,6 +210,10 @@ public class Util {
         }
     }
 
+    /**
+     * @see ReflectionUtil#newInstanceOrNull(Class)
+     */
+    @Deprecated
     public static <T> T newInstanceOrNull(Class<T> clazz) {
         try {
             return clazz.newInstance();
