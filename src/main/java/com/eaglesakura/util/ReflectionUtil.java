@@ -78,7 +78,7 @@ public class ReflectionUtil {
         try {
             return constructor.newInstance(args);
         } catch (Exception e) {
-            throw new Error(e);
+            return null;
         }
     }
 
