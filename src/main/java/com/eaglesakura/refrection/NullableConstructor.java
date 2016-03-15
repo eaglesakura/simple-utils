@@ -24,6 +24,13 @@ public class NullableConstructor<T> {
     }
 
     /**
+     * コンストラクタが有効な状態であればtrue
+     */
+    public boolean valid() {
+        return mConstructor != null;
+    }
+
+    /**
      * インスタンスを生成するが、失敗した場合は例外を投げずにnullを返却する
      */
     public T newInstance(Object... args) {
