@@ -4,8 +4,12 @@ import java.lang.reflect.Method;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 public class StringUtil {
+
+    private static final Locale sLocale = Locale.getDefault();
+
 
     static {
         base64Converter = new Base64Converter() {
@@ -424,5 +428,12 @@ public class StringUtil {
     public static int parseWebColorARGB2ARGB(String webColor) {
         int argb = (int) (parseHex(webColor, 0x00000000FFFFFFFF) & 0x00000000FFFFFFFFL);
         return argb;
+    }
+
+    /**
+     * デフォルトのLocaleを利用して書式設定する
+     */
+    public static String format(String fmt, Object... args) {
+        return String.format(sLocale, fmt, args);
     }
 }
