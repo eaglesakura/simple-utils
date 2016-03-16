@@ -3,7 +3,6 @@ package com.eaglesakura.util;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -87,14 +86,21 @@ public class CollectionUtil {
     /**
      * 別なクラスのリストへ変換する
      */
-    public static <T, R> List<R> asOtherList(List<T> origin, Converter<T, R> converter) {
-        if (isEmpty(origin)) {
-            return Collections.emptyList();
-        }
-
-        List<R> result = new ArrayList<>(origin.size());
+    public static <T, R> List<R> asOtherList(Iterable<T> origin, Converter<T, R> converter) {
+        List<R> result = new ArrayList<>();
         for (T item : origin) {
             result.add(converter.convert(item));
+        }
+        return result;
+    }
+
+    /**
+     * 別なクラスのリストへ変換する
+     */
+    public static <T, R> List<R> asOtherList(Iterator<T> origin, Converter<T, R> converter) {
+        List<R> result = new ArrayList<>();
+        while (origin.hasNext()) {
+            result.add(converter.convert(origin.next()));
         }
         return result;
     }

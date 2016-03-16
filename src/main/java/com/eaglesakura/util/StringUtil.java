@@ -436,4 +436,11 @@ public class StringUtil {
     public static String format(String fmt, Object... args) {
         return String.format(sLocale, fmt, args);
     }
+
+    /**
+     * 文字列の簡易ハッシュを生成する
+     */
+    public static long getHash64(String str) {
+        return EncodeUtil.getHash64(str.getBytes(), 0x123456789ABCD012L);
+    }
 }

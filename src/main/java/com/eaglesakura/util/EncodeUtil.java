@@ -127,4 +127,29 @@ public class EncodeUtil {
         }
     }
 
+    public static long getHash64(byte[] buffer, long seed) {
+        return getHash64(buffer, 0, buffer.length, seed);
+    }
+
+    /**
+     * 既存アルゴリズムほどの巨大な長さは不要だが、そこそこの衝突耐性が必要なハッシュ値を生成する
+     *
+     * 移植元: https://github.com/eaglesakura/protoground/blob/develop/core/es/system/Hash.cpp
+     *
+     * @param buffer 計算するバッファ
+     * @param offset 計算開始地点
+     * @param length 計算するバッファの長さ
+     * @param seed   ハッシュの初期値
+     * @return 64bitハッシュ値
+     */
+    public static long getHash64(byte[] buffer, int offset, int length, long seed) {
+        long result = seed;
+        while (length > 0) {
+            result ^= (((int) buffer[offset]) & 0xFF) * seed;
+            seed = ~((seed << 7) | (seed >>> 57));
+            ++offset;
+            --length;
+        }
+        return result;
+    }
 }
