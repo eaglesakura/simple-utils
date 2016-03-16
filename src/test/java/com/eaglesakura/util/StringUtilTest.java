@@ -38,7 +38,7 @@ public class StringUtilTest {
             for (int i = 0; i < LOOP_NUM; ++i) {
                 String str = StringUtil.format("Value[%07d]", i);
                 long hash = StringUtil.getHash64(str);
-                LogUtil.log("Str(%s) Hash(%X)", str, hash);
+//                LogUtil.log("Str(%s) Hash(%X)", str, hash);
                 ALL_HASH.add(hash);
             }
             assertEquals(ALL_HASH.size(), LOOP_NUM);
