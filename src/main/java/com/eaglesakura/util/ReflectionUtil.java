@@ -2,6 +2,7 @@ package com.eaglesakura.util;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.List;
@@ -10,6 +11,32 @@ import java.util.List;
  * リフレクション関係のUtil
  */
 public class ReflectionUtil {
+
+    /**
+     * Enumのname()から実体を取得する。
+     * 取得に失敗した場合はnullを返却する。
+     */
+    public static <T extends Enum> T valueOf(Class<T> clazz, String name) {
+        try {
+            Method valueOfMethod = clazz.getMethod("valueOf", String.class);
+            return (T) valueOfMethod.invoke(clazz, name);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    /**
+     * Enumのname()から実体を取得する。
+     * 取得に失敗した場合はdefValueを返却する。
+     */
+    public static <T extends Enum> T valueOf(Class<T> clazz, String name, T defValue) {
+        T result = valueOf(clazz, name);
+        if (result == null) {
+            return defValue;
+        } else {
+            return result;
+        }
+    }
 
     /**
      * objがclazzクラスかサブクラスである場合trueを返す

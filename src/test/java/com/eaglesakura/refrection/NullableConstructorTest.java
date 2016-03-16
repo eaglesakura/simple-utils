@@ -1,13 +1,29 @@
 package com.eaglesakura.refrection;
 
+import com.eaglesakura.util.ReflectionUtil;
+
 import org.junit.Test;
 
 import java.util.ArrayList;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 public class NullableConstructorTest {
+
+    public enum TestEnum {
+        Value0,
+        Value1,
+    }
+
+    @Test
+    public void valueOfでEnumを取得する() {
+        assertEquals(ReflectionUtil.valueOf(TestEnum.class, "Value0"), TestEnum.Value0);
+        assertNull(ReflectionUtil.valueOf(TestEnum.class, "Fail"));
+        assertEquals(ReflectionUtil.valueOf(TestEnum.class, "Fail", TestEnum.Value1), TestEnum.Value1);
+    }
+
     @Test
     public void 引数なしコンストラクタでインスタンスが生成できる() {
         NullableConstructor<ArrayList> constructor = NullableConstructor.get(ArrayList.class);
