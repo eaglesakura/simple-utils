@@ -10,6 +10,19 @@ import java.util.List;
 import java.util.Map;
 
 public class Util {
+    /**
+     * 2つの値が一致する場合はtrueを返却する
+     */
+    public static boolean equals(Object a, Object b) {
+        if (a == null && b == null) {
+            return true;
+        }
+        if (a != null && b != null) {
+            return a.equals(b);
+        } else {
+            return false;
+        }
+    }
 
     public static int getInt(Integer value, int defValue) {
         if (value == null) {
