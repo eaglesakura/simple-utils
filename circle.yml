@@ -16,9 +16,11 @@ machine:
     JAVA_OPTS: -Dfile.encoding=UTF-8 -Xms1024m -Xmx4096m -XX:MaxPermSize=2048m
 dependencies:
   cache_directories:
-    - "/home/ubuntu/build-cache"
+#    - "/home/ubuntu/build-cache"
   override:
+#    - sh -c "$(curl -fsSL https://raw.githubusercontent.com/eaglesakura/build-dependencies/master/android-sdk-install-circle.sh)"
     - ./script/circleci-invalidate-cache.sh
+    - ./gradlew dependencies assemble
 test:
   override:
     - echo "Skip test task"
