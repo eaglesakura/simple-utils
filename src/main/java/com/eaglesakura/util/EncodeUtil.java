@@ -2,6 +2,8 @@ package com.eaglesakura.util;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.security.MessageDigest;
 
 /**
@@ -151,5 +153,27 @@ public class EncodeUtil {
             --length;
         }
         return result;
+    }
+
+    /**
+     * URLエンコーディングを行う
+     */
+    public static String toUrl(String value) {
+        try {
+            return URLEncoder.encode(value, "UTF-8");
+        } catch (Exception e) {
+            return value;
+        }
+    }
+
+    /**
+     * URLエンコーディングから文字列を取得する
+     */
+    public static String fromUrl(String url) {
+        try {
+            return URLDecoder.decode(url, "UTF-8");
+        } catch (Exception e) {
+            return url;
+        }
     }
 }
