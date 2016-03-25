@@ -443,4 +443,20 @@ public class StringUtil {
     public static long getHash64(String str) {
         return EncodeUtil.getHash64(str.getBytes(), 0x123456789ABCD012L);
     }
+
+    /**
+     * 正規表現を使用せず、単純な置換のみを行う
+     *
+     * @param value 対象文字列
+     * @param org   検索対象文字
+     * @param rep   置換文字
+     */
+    public static String replaceAllSimple(String value, String org, String rep) {
+        String result = value;
+        while (result.contains(org)) {
+            result = value.replace(org, rep);
+        }
+
+        return result;
+    }
 }
