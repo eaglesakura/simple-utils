@@ -6,6 +6,8 @@ import java.util.TimeZone;
 
 public class DateUtil {
 
+    public static final int DAY_MILLI_SEC = 1000 * 60 * 60 * 24;
+
     /**
      * 現在の年を取得する。
      * 2016年1月2日の場合は2016をそのまま返却する。
@@ -51,19 +53,49 @@ public class DateUtil {
     }
 
     /**
+     * 時差を考慮して一日の開始時間を取得する
+     *
+     * @param date     現在時刻
+     * @param timeZone 時差設定
+     * @return 現在時刻が所属する日の午前0時0分
+     */
+    public static Date getDateStart(Date date, TimeZone timeZone) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeZone(timeZone);
+        calendar.setTime(date);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+
+        return calendar.getTime();
+    }
+
+    /**
+     * 指定ミリ秒だけオフセットさせた時刻を生成する
+     *
+     * @param date 時刻
+     * @param time オフセット時間
+     */
+    public static Date offset(Date date, long time) {
+        return new Date(date.getTime() + time);
+    }
+
+    /**
      * 指定日の開始時刻を取得する
      *
      * MEMO: 正確な時刻を扱うには、時差を加算しなければならない。
      */
+    @Deprecated
     public static Date getDateStart(Date date) {
-        long oneDay = 1000 * 60 * 60 * 24;
         long now = date.getTime();
-        return new Date((now / oneDay * oneDay));
+        return new Date((now / DAY_MILLI_SEC * DAY_MILLI_SEC));
     }
 
     /**
      * 指定日の終了時刻を取得する
      */
+    @Deprecated
     public static Date getDateEnd(Date date) {
         return new Date(getDateStart(date).getTime() + (1000 * 60 * 60 * 24) - 1);
     }
@@ -71,6 +103,7 @@ public class DateUtil {
     /**
      * 今日の0時0分を取得する
      */
+    @Deprecated
     public static Date getTodayStart() {
         return getDateStart(new Date());
     }
@@ -78,6 +111,7 @@ public class DateUtil {
     /**
      * 今日の23時59分59秒....を取得する
      */
+    @Deprecated
     public static Date getTodayEnd() {
         return new Date(getTodayStart().getTime() + (1000 * 60 * 60 * 24) - 1);
     }
