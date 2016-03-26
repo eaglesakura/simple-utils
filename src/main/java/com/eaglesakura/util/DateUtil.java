@@ -33,6 +33,15 @@ public class DateUtil {
     }
 
     /**
+     * 現在の時間を24時間単位で取得する
+     *
+     * @param calendar 0-23
+     */
+    public static int getHour(Calendar calendar) {
+        return calendar.get(Calendar.HOUR_OF_DAY);
+    }
+
+    /**
      * 現在のLocaleの時差を取得する。
      *
      * 日本であればGMT+9なので、1000 * 60 * 60 * 9の値が返却される
