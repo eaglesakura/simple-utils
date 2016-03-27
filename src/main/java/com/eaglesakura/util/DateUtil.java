@@ -16,6 +16,13 @@ public class DateUtil {
         return calendar.get(Calendar.YEAR);
     }
 
+    public static int getYear(Date date, TimeZone zone) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeZone(zone);
+        calendar.setTime(date);
+        return getYear(calendar);
+    }
+
     /**
      * 現在の月を取得する
      *
@@ -24,6 +31,14 @@ public class DateUtil {
     public static int getMonth(Calendar calendar) {
         return calendar.get(Calendar.MONTH) + 1;
     }
+
+    public static int getMonth(Date date, TimeZone zone) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeZone(zone);
+        calendar.setTime(date);
+        return getMonth(calendar);
+    }
+
 
     /**
      * 現在の日を取得する
@@ -34,6 +49,13 @@ public class DateUtil {
         return calendar.get(Calendar.DAY_OF_MONTH);
     }
 
+    public static int getDay(Date date, TimeZone zone) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeZone(zone);
+        calendar.setTime(date);
+        return getDay(calendar);
+    }
+
     /**
      * 現在の時間を24時間単位で取得する
      *
@@ -41,6 +63,33 @@ public class DateUtil {
      */
     public static int getHour(Calendar calendar) {
         return calendar.get(Calendar.HOUR_OF_DAY);
+    }
+
+    public static int getHour(Date date, TimeZone zone) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeZone(zone);
+        calendar.setTime(date);
+        return getHour(calendar);
+    }
+
+    /**
+     * 年月日を指定し、午前0時0分を取得する
+     *
+     * @param timeZone 時差補正
+     * @param year     2016年の場合は2016
+     * @param month    1月の場合は1
+     * @param day      2日の場合は2
+     * @return Date
+     */
+    public static Date getTime(TimeZone timeZone, int year, int month, int day) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeZone(timeZone);
+        calendar.set(year, month - 1, day);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        return calendar.getTime();
     }
 
     /**
