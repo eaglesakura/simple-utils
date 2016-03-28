@@ -576,7 +576,6 @@ public class IOUtil {
 
             return bufferStream.toByteArray();
         } catch (Exception e) {
-            LogUtil.log(e);
             throw new IllegalStateException(e);
         }
     }
@@ -592,7 +591,7 @@ public class IOUtil {
             GZIPInputStream is = new GZIPInputStream(new ByteArrayInputStream(gzip));
             return toByteArray(is, true);
         } catch (Exception e) {
-            LogUtil.log(e);
+            e.printStackTrace();
             return null;
         }
     }
@@ -620,8 +619,7 @@ public class IOUtil {
 
             // ファイル名を確定する
             outFile = new File(outFile, path.get(0));
-            LogUtil.log("  unzip(%s)", outFile.getAbsolutePath());
-
+//            LogUtil.log("  unzip(%s)", outFile.getAbsolutePath());
             if (!entry.isDirectory()) {
                 // ファイルへ書き込む
                 FileOutputStream os = new FileOutputStream(outFile);
