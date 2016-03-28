@@ -31,7 +31,7 @@ public class CipherUtil {
 
             return cipher.doFinal(buffer);
         } catch (Exception e) {
-            LogUtil.log(e);
+            e.printStackTrace();
         }
 
         return null;
@@ -52,7 +52,7 @@ public class CipherUtil {
 
             return cipher.doFinal(buffer);
         } catch (Exception e) {
-            LogUtil.log(e);
+            e.printStackTrace();
         }
 
         return null;
@@ -70,7 +70,7 @@ public class CipherUtil {
             KeyPair keyPair = gen.generateKeyPair();
             return keyPair;
         } catch (Exception e) {
-            LogUtil.log(e);
+            e.printStackTrace();
             return null;
         }
 
@@ -93,7 +93,7 @@ public class CipherUtil {
 
             return keyFactory.generatePrivate(keySpec);
         } catch (Exception e) {
-            LogUtil.log(e);
+            e.printStackTrace();
         }
 
         return null;
@@ -114,7 +114,7 @@ public class CipherUtil {
 
             return keyFactory.generatePublic(keySpec);
         } catch (Exception e) {
-            LogUtil.log(e);
+            e.printStackTrace();
         }
 
         return null;

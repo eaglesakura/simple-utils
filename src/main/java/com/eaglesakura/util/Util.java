@@ -90,7 +90,7 @@ public class Util {
         try {
             Thread.sleep(timems);
         } catch (Exception e) {
-            LogUtil.log(e);
+            e.printStackTrace();
         }
     }
 
@@ -106,7 +106,7 @@ public class Util {
         try {
             Thread.sleep(ms, nano);
         } catch (Exception e) {
-            LogUtil.log(e);
+            e.printStackTrace();
         }
     }
 
@@ -243,7 +243,7 @@ public class Util {
     /**
      * オブジェクトリストを別なオブジェクトに変換する
      *
-     * @see CollectionUtil#asOtherList(List, CollectionUtil.Converter)
+     * @see CollectionUtil#asOtherList(Iterable, CollectionUtil.Converter)
      */
     @Deprecated
     public static <T, R> List<R> convert(List<T> origin, ItemConverter<T, R> converter) {

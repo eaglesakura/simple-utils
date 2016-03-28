@@ -34,11 +34,11 @@ if (!hasProperty("EGLIBRARY_COMPILE_LOCAL")) {
 }
 
 dependencies {
-    if (EGLIBRARY_COMPILE_LOCAL) {
-        compile project(':eglibrary:simple-logger')
-    } else {
-        compile 'com.eaglesakura:simple-logger:1.+'
-    }
+//    if (EGLIBRARY_COMPILE_LOCAL) {
+//        compile project(':eglibrary:simple-logger')
+//    } else {
+//        compile 'com.eaglesakura:simple-logger:1.+'
+//    }
     testCompile 'junit:junit:4.12'
     testCompile 'commons-codec:commons-codec:1.+'
 }
