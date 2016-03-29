@@ -1,5 +1,7 @@
 package com.eaglesakura.util;
 
+import com.eaglesakura.lambda.Action1;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -9,6 +11,16 @@ import java.util.List;
 import java.util.Map;
 
 public class CollectionUtil {
+
+    /**
+     * Listの全オブジェクトに対して処理を行い、オブジェクトを返却する
+     */
+    public static <T> List<T> each(List<T> list, Action1<T> action) throws Throwable {
+        for (T it : list) {
+            action.action(it);
+        }
+        return list;
+    }
 
     /**
      * itemが重複しないようにaddする
