@@ -10,11 +10,32 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class CollectionUtil {
 
     /**
-     * Listの全オブジェクトに対して処理を行い、オブジェクトを返却する
+     * Setの全オブジェクトに対して処理を行い、同一オブジェクトを返却する
+     */
+    public static <T> Set<T> each(Set<T> set, Action1<T> action) throws Throwable {
+        for (T it : set) {
+            action.action(it);
+        }
+        return set;
+    }
+
+    /**
+     * Mapの全オブジェクトに対して処理を行い、同一オブジェクトを返却する
+     */
+    public static <K, V> Map<K, V> each(Map<K, V> map, Action1<V> action) throws Throwable {
+        for (V it : map.values()) {
+            action.action(it);
+        }
+        return map;
+    }
+
+    /**
+     * Listの全オブジェクトに対して処理を行い、同一オブジェクトを返却する
      */
     public static <T> List<T> each(List<T> list, Action1<T> action) throws Throwable {
         for (T it : list) {
