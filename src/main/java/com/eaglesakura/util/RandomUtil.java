@@ -78,10 +78,17 @@ public class RandomUtil {
     }
 
     /**
+     * 短い周期では衝突しないと思われる短い文字列を生成する
+     */
+    public static String randShortString() {
+        return randString().substring(0, 4) + ((int) RandomUtil.randUInt16() & 0xFF);
+    }
+
+    /**
      * ランダムな文字列を生成する
      */
     public static String randString() {
-        return UUID.randomUUID().toString();
+        return StringUtil.replaceAllSimple(UUID.randomUUID().toString(), "-", "");
     }
 
     /**
@@ -91,7 +98,6 @@ public class RandomUtil {
         StringBuffer result = new StringBuffer();
         for (int i = 0; i < 256; ++i) {
             result.append(randString());
-            result.append("-");
         }
         return result.toString();
     }

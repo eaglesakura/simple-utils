@@ -2,6 +2,11 @@ package com.eaglesakura.util;
 
 import org.junit.Test;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -34,6 +39,24 @@ public class RandomUtilTest {
     public void longで負の値が返却されないことを確認() throws Exception {
         for (int i = 0; i < TRY_CHECK_COUNT; ++i) {
             assertTrue(RandomUtil.randUInt64() >= 0);
+        }
+    }
+
+    @Test
+    public void ShortStringで短いスパンで一致しないことを確認() throws Exception {
+        Set<String> values = new HashSet<>();
+        for (int i = 0; i < TRY_CHECK_COUNT; ++i) {
+            values.add(RandomUtil.randShortString());
+        }
+        assertEquals(values.size(), TRY_CHECK_COUNT);
+    }
+
+    @Test
+    public void Stringでハイフンが含まれないことを確認() throws Exception {
+        for (int i = 0; i < TRY_CHECK_COUNT; ++i) {
+            assertFalse(RandomUtil.randString().contains("-"));
+            assertFalse(RandomUtil.randShortString().contains("-"));
+            assertFalse(RandomUtil.randLargeString().contains("-"));
         }
     }
 
