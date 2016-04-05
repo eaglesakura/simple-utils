@@ -10,6 +10,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InterruptedIOException;
 import java.io.OutputStream;
 import java.lang.reflect.Method;
 import java.security.MessageDigest;
@@ -596,12 +597,83 @@ public class IOUtil {
         }
     }
 
+    public interface DecompressCallback {
+        /**
+         * デコードキャンセルする場合はtrue
+         */
+        boolean isCanceled();
+
+        /**
+         * 指定したファイルを書き込むことを許可する
+         */
+        boolean isDecompressExist(long size, File dst);
+
+        /**
+         * ファイルの解析が完了した
+         */
+        void onDecompressCompleted(File dst);
+    }
+
+    /**
+     * InputStream経由でUnzipを行う
+     *
+     * @param stream       読み込み対象
+     * @param outDirectory 書き込み対象
+     * @param callback     処理決定用のコールバック
+     */
+    public static void unzip(InputStream stream, File outDirectory, DecompressCallback callback) throws IOException {
+        ZipInputStream is = null;
+
+        try {
+            is = new ZipInputStream(stream);
+            byte[] buffer = new byte[1024 * 128];
+
+            ZipEntry entry;
+            while ((entry = is.getNextEntry()) != null) {
+                File outFile = outDirectory;
+                List<String> path = CollectionUtil.asList(entry.getName().split("/"));
+
+                // "/"で区切られていたら、パスを追加する
+                while (path.size() > 1) {
+                    outFile = new File(outFile, path.remove(0));
+                }
+
+                // パスを生成する
+                outFile.mkdirs();
+
+                // ファイル名を確定する
+                outFile = new File(outFile, path.get(0));
+                if (!entry.isDirectory() && callback.isDecompressExist(entry.getSize(), outFile)) {
+                    // ファイルへ書き込む
+                    FileOutputStream os = null;
+                    try {
+                        os = new FileOutputStream(outFile);
+                        int read;
+                        while ((read = is.read(buffer)) > 0) {
+                            os.write(buffer, 0, read);
+                            if (callback.isCanceled()) {
+                                throw new InterruptedIOException();
+                            }
+                        }
+                    } finally {
+                        IOUtil.close(os);
+                    }
+
+                    callback.onDecompressCompleted(outFile);
+                }
+            }
+        } finally {
+            IOUtil.close(is);
+        }
+    }
+
     /**
      * InputStream経由でUnzipを行う
      *
      * @param stream       読み込み対象
      * @param outDirectory 書き込み対象
      */
+    @Deprecated
     public static void unzip(InputStream stream, File outDirectory) throws IOException {
         ZipInputStream is = new ZipInputStream(stream);
         ZipEntry entry;
@@ -619,7 +691,6 @@ public class IOUtil {
 
             // ファイル名を確定する
             outFile = new File(outFile, path.get(0));
-//            LogUtil.log("  unzip(%s)", outFile.getAbsolutePath());
             if (!entry.isDirectory()) {
                 // ファイルへ書き込む
                 FileOutputStream os = new FileOutputStream(outFile);
