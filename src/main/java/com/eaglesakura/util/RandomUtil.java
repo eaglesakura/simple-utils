@@ -78,28 +78,51 @@ public class RandomUtil {
     }
 
     /**
+     * a-z, 0-9, A-Zの中からランダムに文字を返す
+     */
+    public static byte randNumAlphabet() {
+        switch (randUInt8() % 5) {
+            case 0:
+            case 1:
+                return (byte) ('a' + (randUInt8() % 26));
+            case 2:
+            case 3:
+                return (byte) ('A' + (randUInt8() % 26));
+            default:
+                return (byte) ('0' + (randUInt8() % 10));
+        }
+    }
+
+    /**
+     * ランダムな文字列を生成する
+     */
+    public static String randString(int length) {
+        byte[] buffer = new byte[length];
+        for (int i = 0; i < length; ++i) {
+            buffer[i] = randNumAlphabet();
+        }
+        return new String(buffer);
+    }
+
+    /**
      * 短い周期では衝突しないと思われる短い文字列を生成する
      */
     public static String randShortString() {
-        return randString().substring(0, 4) + ((int) RandomUtil.randUInt16() & 0xFF);
+        return randString(4) + ((int) RandomUtil.randUInt16() & 0xFF);
     }
 
     /**
      * ランダムな文字列を生成する
      */
     public static String randString() {
-        return StringUtil.replaceAllSimple(UUID.randomUUID().toString(), "-", "");
+        return randString(32);
     }
 
     /**
      * ランダムである程度長い文字列を生成する
      */
     public static String randLargeString() {
-        StringBuffer result = new StringBuffer();
-        for (int i = 0; i < 256; ++i) {
-            result.append(randString());
-        }
-        return result.toString();
+        return randString(4 * 256);
     }
 
     /**

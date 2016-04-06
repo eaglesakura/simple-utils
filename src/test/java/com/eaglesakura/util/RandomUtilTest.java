@@ -52,6 +52,21 @@ public class RandomUtilTest {
     }
 
     @Test
+    public void Stringが英数の範囲で返されることを確認() throws Exception {
+        for (int i = 0; i < TRY_CHECK_COUNT; ++i) {
+            String value = RandomUtil.randString(1024);
+            byte[] buffer = value.getBytes();
+            for (byte b : buffer) {
+                assertTrue(
+                        (b >= (byte) 'a' && (b <= (byte) 'z'))
+                                || (b >= (byte) 'A' && (b <= (byte) 'Z'))
+                                || (b >= (byte) '0' && (b <= (byte) '9'))
+                );
+            }
+        }
+    }
+
+    @Test
     public void Stringでハイフンが含まれないことを確認() throws Exception {
         for (int i = 0; i < TRY_CHECK_COUNT; ++i) {
             assertFalse(RandomUtil.randString().contains("-"));
