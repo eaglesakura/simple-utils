@@ -1,6 +1,7 @@
 package com.eaglesakura.util;
 
 import com.eaglesakura.lambda.Action1;
+import com.eaglesakura.lambda.Action2;
 import com.eaglesakura.lambda.ResultAction1;
 
 import java.util.ArrayList;
@@ -30,6 +31,18 @@ public class CollectionUtil {
     public static <K, V> Map<K, V> each(Map<K, V> map, Action1<V> action) throws Throwable {
         for (V it : map.values()) {
             action.action(it);
+        }
+        return map;
+    }
+
+    /**
+     * Mapの全オブジェクトに対して処理を行い、同一オブジェクトを返却する
+     */
+    public static <K, V> Map<K, V> each(Map<K, V> map, Action2<K, V> action) throws Throwable {
+        Iterator<Map.Entry<K, V>> iterator = map.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry<K, V> entry = iterator.next();
+            action.action(entry.getKey(), entry.getValue());
         }
         return map;
     }
