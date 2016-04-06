@@ -108,7 +108,7 @@ public class RandomUtil {
      * 短い周期では衝突しないと思われる短い文字列を生成する
      */
     public static String randShortString() {
-        return randString(4) + ((int) RandomUtil.randUInt16() & 0xFF);
+        return randString(6) + ((int) RandomUtil.randUInt16() & 0xFF);
     }
 
     /**
