@@ -13,6 +13,14 @@ import static org.junit.Assert.assertNotNull;
 public class StringUtilTest {
 
     @Test
+    public void trimが正常に行える() throws Exception {
+        assertEquals(StringUtil.trimSpacesOrEmpty(null), "");
+        assertEquals(StringUtil.trimSpacesOrEmpty("  "), "");
+        assertEquals(StringUtil.trimSpacesOrEmpty(" ABC "), "ABC");
+        assertEquals(StringUtil.trimSpacesOrEmpty(" 　ABC "), "ABC");
+    }
+
+    @Test
     public void base64変換が行える() throws Exception {
         byte[] buffer = "this is test".getBytes();
         String encoded = StringUtil.toString(buffer);

@@ -499,6 +499,24 @@ public class IOUtil {
     }
 
     /**
+     * ディレクトリ配下にあるファイルを列挙する
+     *
+     * 列挙に失敗した場合、このメソッドは要素数0の配列を返却する
+     */
+    public static File[] listFiles(File dir) {
+        if (dir == null) {
+            return new File[0];
+        }
+
+        File[] files = dir.listFiles();
+        if (files == null) {
+            return new File[0];
+        } else {
+            return files;
+        }
+    }
+
+    /**
      * parentからtargetに到達するまでの全てのファイルを取得する。
      * 戻り値にtargetとparentも含まれる。
      * 階層が上にあるFileがindexの0に近くなる。
