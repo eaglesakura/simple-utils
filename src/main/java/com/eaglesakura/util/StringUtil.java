@@ -158,6 +158,36 @@ public class StringUtil {
     }
 
     /**
+     * 前後にある半角・全角スペースを削除する
+     *
+     * nullの場合は空文字を返却する
+     */
+    public static String trimSpacesOrEmpty(String src) {
+        if (src == null) {
+            return "";
+        }
+
+        while (src.startsWith(" ")) {
+            src = src.substring(1);
+        }
+
+        while (src.endsWith(" ")) {
+            src = src.substring(0, src.length() - 1);
+        }
+
+
+        while (src.startsWith("　")) {
+            src = src.substring(1);
+        }
+
+        while (src.endsWith("　")) {
+            src = src.substring(0, src.length() - 1);
+        }
+
+        return src;
+    }
+
+    /**
      * 全角英数を半角英数に変換する
      */
     public static String zenkakuEngToHankakuEng(String s) {
