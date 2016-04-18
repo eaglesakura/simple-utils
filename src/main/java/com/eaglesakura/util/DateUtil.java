@@ -1,12 +1,36 @@
 package com.eaglesakura.util;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
 public class DateUtil {
 
+    private static final SimpleDateFormat ISO8601 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX");
+
     public static final int DAY_MILLI_SEC = 1000 * 60 * 60 * 24;
+
+    /**
+     * ISO8601 へと変換する
+     */
+    public static String toISO8601(Date date) {
+        return ISO8601.format(date);
+    }
+
+    /**
+     * ISO8601形式 "2016-04-18T20:30:24" をパースする
+     */
+    public static Date parseDateISO8601(String value, TimeZone timeZone) {
+        try {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeZone(timeZone);
+            calendar.setTime(ISO8601.parse(value));
+            return calendar.getTime();
+        } catch (Exception e) {
+            return null;
+        }
+    }
 
     /**
      * 現在の年を取得する。
