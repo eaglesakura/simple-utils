@@ -615,6 +615,64 @@ public class IOUtil {
         }
     }
 
+    public interface OnMemoryDecompressCallback {
+        /**
+         * デコードキャンセルする場合はtrue
+         */
+        boolean isCanceled();
+
+        /**
+         * 指定したファイルを書き込むことを許可する
+         */
+        boolean isDecompressExist(long size, String path);
+
+        /**
+         * ファイルの解析が完了した
+         */
+        void onDecompressCompleted(String path, byte[] buffer);
+    }
+
+    /**
+     * InputStream経由でUnzipを行う
+     *
+     * @param stream   読み込み対象
+     * @param callback 処理決定用のコールバック
+     */
+    public static void unzip(InputStream stream, OnMemoryDecompressCallback callback) throws IOException {
+        ZipInputStream is = null;
+
+        try {
+            is = new ZipInputStream(stream);
+            byte[] buffer = new byte[1024 * 128];
+
+            ZipEntry entry;
+            while ((entry = is.getNextEntry()) != null && !callback.isCanceled()) {
+                String path = entry.getName();
+
+                if (!entry.isDirectory() && callback.isDecompressExist(entry.getSize(), path)) {
+                    // メモリに読み込む
+                    ByteArrayOutputStream os = null;
+                    try {
+                        os = new ByteArrayOutputStream((int) entry.getSize());
+                        int read;
+                        while ((read = is.read(buffer)) > 0) {
+                            os.write(buffer, 0, read);
+                            if (callback.isCanceled()) {
+                                throw new InterruptedIOException();
+                            }
+                        }
+                    } finally {
+                        IOUtil.close(os);
+                    }
+
+                    callback.onDecompressCompleted(path, os.toByteArray());
+                }
+            }
+        } finally {
+            IOUtil.close(is);
+        }
+    }
+
     public interface DecompressCallback {
         /**
          * デコードキャンセルする場合はtrue
@@ -647,7 +705,7 @@ public class IOUtil {
             byte[] buffer = new byte[1024 * 128];
 
             ZipEntry entry;
-            while ((entry = is.getNextEntry()) != null) {
+            while ((entry = is.getNextEntry()) != null && !callback.isCanceled()) {
                 File outFile = outDirectory;
                 List<String> path = CollectionUtil.asList(entry.getName().split("/"));
 
