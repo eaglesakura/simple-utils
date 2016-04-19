@@ -7,7 +7,7 @@ import java.util.TimeZone;
 
 public class DateUtil {
 
-    private static final SimpleDateFormat ISO8601 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX");
+    private static final SimpleDateFormat ISO8601 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
     public static final int DAY_MILLI_SEC = 1000 * 60 * 60 * 24;
 
