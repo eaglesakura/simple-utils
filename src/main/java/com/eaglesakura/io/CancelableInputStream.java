@@ -66,7 +66,7 @@ public class CancelableInputStream extends InputStream {
         throwIfCanceled();
 
         // キャンセルチェックを容易にするため、一度の取得を小さく保つ
-        return super.read(buffer, Math.min(mBufferSize, byteCount), byteCount);
+        return mStream.read(buffer, byteOffset, Math.min(mBufferSize, byteCount));
     }
 
     @Override
