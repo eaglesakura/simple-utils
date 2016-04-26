@@ -23,10 +23,31 @@ public class DateUtil {
      */
     public static Date parseDateISO8601(String value, TimeZone timeZone) {
         try {
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTimeZone(timeZone);
-            calendar.setTime(ISO8601.parse(value));
-            return calendar.getTime();
+            int timeZoneIndex = Math.max(value.lastIndexOf('+'), value.lastIndexOf('-'));
+            if (value.length() < 20) {
+                Calendar instance = Calendar.getInstance();
+                instance.setTimeZone(timeZone);
+                instance.setTime(ISO8601.parse(value));
+                return instance.getTime();
+            } else {
+                String dateTimeString = value.substring(0, timeZoneIndex);
+                String timeZoneString = StringUtil.replaceAllSimple(value.substring(timeZoneIndex + 1), ":", "");
+                Date origin = ISO8601.parse(dateTimeString);
+                int hour = Integer.valueOf(timeZoneString.substring(0, 2));
+                int minutes = Integer.valueOf(timeZoneString.substring(2, 4));
+
+                long dateOffset;
+
+                if (value.charAt(timeZoneIndex) == '+') {
+                    dateOffset = -Timer.toMilliSec(0, hour, minutes, 0, 0);
+                } else {
+                    dateOffset = Timer.toMilliSec(0, hour, minutes, 0, 0);
+                }
+
+                dateOffset += timeZone.getRawOffset();
+
+                return new Date(origin.getTime() + dateOffset);
+            }
         } catch (Exception e) {
             return null;
         }
