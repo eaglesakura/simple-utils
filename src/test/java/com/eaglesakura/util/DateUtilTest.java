@@ -2,9 +2,12 @@ package com.eaglesakura.util;
 
 import org.junit.Test;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.TimeZone;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class DateUtilTest {
 
@@ -14,5 +17,28 @@ public class DateUtilTest {
 //        assertEquals(DateUtil.getYear(), 2016);
 //        assertEquals(DateUtil.getMonth(), 3);
 //        assertEquals(DateUtil.getDay(), 16);
+    }
+
+    void checkDate(String dateString, int year, int month, int day) {
+        Date date = DateUtil.parseDateISO8601(dateString, TimeZone.getDefault());
+        assertNotNull(date);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        assertEquals(DateUtil.getYear(calendar), year);
+        assertEquals(DateUtil.getMonth(calendar), month);
+        assertEquals(DateUtil.getDay(calendar), day);
+    }
+
+    @Test
+    public void ISO8601フォーマットの解析が行える() {
+        checkDate("2016-04-28T00:00:00", 2016, 4, 28);   // 時差補正が無いなら現在のタイムゾーンとして扱う
+        checkDate("2016-04-28T23:00:00", 2016, 4, 28);   // 時差補正が無いなら現在のタイムゾーンとして扱う
+        checkDate("2016-04-28T00:00:00+00:00", 2016, 4, 28);   // ISO-8601 Format
+        checkDate("2016-04-28T23:00:00+00:00", 2016, 4, 29);   // 時差によって日付がずれる
+        checkDate("2016-12-31T00:00:00+09:00", 2016, 12, 31);   // 時差が現地時刻で書き込まれている
+        checkDate("2016-12-31T23:00:00+09:00", 2016, 12, 31);   // 時差が現地時刻で書き込まれている
+
+        checkDate("2016-12-31T00:00:00-09:00", 2016, 12, 31);   // 負の時差を扱える
+        checkDate("2016-12-31T23:00:00-09:00", 2017, 1, 1);   // 負の時差を扱える
     }
 }
