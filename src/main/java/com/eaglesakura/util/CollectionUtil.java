@@ -94,6 +94,14 @@ public class CollectionUtil {
     }
 
     /**
+     * リストに全てのオブジェクトを登録し、listをそのまま返す
+     */
+    public static <T> List<T> addAll(List<T> list, Collection<T> items) {
+        list.addAll(items);
+        return list;
+    }
+
+    /**
      * 2つの配列をコピーする
      */
     public static <T> T[] copyOf(T[] array) {
