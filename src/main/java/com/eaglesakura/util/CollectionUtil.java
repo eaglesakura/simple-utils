@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -94,6 +95,14 @@ public class CollectionUtil {
     }
 
     /**
+     * リストに全てのオブジェクトを登録し、listをそのまま返す
+     */
+    public static <T> List<T> addAll(List<T> list, Collection<T> items) {
+        list.addAll(items);
+        return list;
+    }
+
+    /**
      * 2つの配列をコピーする
      */
     public static <T> T[] copyOf(T[] array) {
@@ -137,6 +146,19 @@ public class CollectionUtil {
         }
         return result;
     }
+
+    public static <T, R> Set<R> asOtherSet(Iterable<T> origin, ResultAction1<T, R> converter) {
+        Set<R> result = new HashSet<>();
+        for (T item : origin) {
+            try {
+                result.add(converter.action(item));
+            } catch (Throwable e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return result;
+    }
+
 
     /**
      * 別なクラスのリストへ変換する

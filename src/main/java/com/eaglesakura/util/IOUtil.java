@@ -1,7 +1,9 @@
 package com.eaglesakura.util;
 
 import com.eaglesakura.io.Disposable;
+import com.eaglesakura.lambda.Action1;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.Closeable;
@@ -10,6 +12,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.InterruptedIOException;
 import java.io.OutputStream;
 import java.lang.reflect.Method;
@@ -28,6 +31,24 @@ import java.util.zip.ZipInputStream;
  * File関連の便利メソッドを提供する
  */
 public class IOUtil {
+
+    /**
+     * テキストストリームを1行ごとに処理する
+     *
+     * @param is     読み込み対象ストリーム
+     * @param action 処理
+     */
+    public static void textStreamLines(InputStream is, Action1<String> action) throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+        String line;
+        while (!StringUtil.isEmpty(line = reader.readLine())) {
+            try {
+                action.action(line);
+            } catch (Throwable e) {
+                throw new IOException(e);
+            }
+        }
+    }
 
     /**
      * inputのバッファを全てoutputへコピーする。 完了した時点でストリームはcloseされる。
