@@ -118,6 +118,22 @@ public class DateUtil {
     }
 
     /**
+     * 現在の分を0-59で取得する
+     *
+     * @param calendar 0-23
+     */
+    public static int getMinute(Calendar calendar) {
+        return calendar.get(Calendar.MINUTE);
+    }
+
+    public static int getMinute(Date date, TimeZone zone) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeZone(zone);
+        calendar.setTime(date);
+        return getMinute(calendar);
+    }
+
+    /**
      * 年月日を指定し、午前0時0分を取得する
      *
      * @param timeZone 時差補正
