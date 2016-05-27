@@ -190,6 +190,27 @@ public class CollectionUtil {
         return result;
     }
 
+    /**
+     * 指定したValueが設定されているKeyを探す。複数ある場合は最初に見つかったものを返却する。
+     * 見つからない場合はnullを返却する。
+     *
+     * @param map   検索
+     * @param value 検索対象の値
+     * @param <K>   Key
+     * @param <V>   Value
+     */
+    public static <K, V> K findKeyFromValue(Map<K, V> map, V value) {
+        Iterator<Map.Entry<K, V>> iterator = map.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry<K, V> entry = iterator.next();
+            if (entry.getValue().equals(value)) {
+                return entry.getKey();
+            }
+        }
+
+        return null;
+    }
+
     public static boolean isEmpty(byte[] item) {
         return item == null || item.length == 0;
     }
