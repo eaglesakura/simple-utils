@@ -35,6 +35,20 @@ public class ThrowableRunner<ResultType, ErrorType extends Throwable> implements
     /**
      * 値を取得するか例外を投げる
      */
+    public ResultType await() throws ErrorType {
+        while (mResult == null) {
+            if (mError != null) {
+                throw mError;
+            }
+
+            Util.sleep(1);
+        }
+        return mResult;
+    }
+
+    /**
+     * 値を取得するか例外を投げる
+     */
     public ResultType getOrThrow() throws ErrorType {
         if (mError != null) {
             throw mError;
