@@ -1,5 +1,7 @@
 package com.eaglesakura.util;
 
+import com.eaglesakura.lambda.Action1;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -108,6 +110,17 @@ public class Util {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static <T> T ifPresent(T value, Action1<T> action) {
+        if (value != null) {
+            try {
+                action.action(value);
+            } catch (Throwable e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return value;
     }
 
     /**
