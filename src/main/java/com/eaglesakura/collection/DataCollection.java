@@ -81,6 +81,89 @@ public class DataCollection<T> {
     }
 
     /**
+     * 条件にマッチするアイテムを検索する
+     *
+     * MEMO: これはソースデータの順番で検索する
+     *
+     * @param filter フィルタ関数
+     * @return 見つけた場合はそのオブジェクト、それ以外はnull
+     */
+    public T find(Matcher1<T> filter) {
+        return find(filter, 0);
+    }
+
+    /**
+     * 条件にマッチするアイテムを検索する
+     *
+     * MEMO: これはソースデータの順番で検索する
+     *
+     * @param filter フィルタ関数
+     * @param n      N番目にヒットしたオブジェクトを検索する(最初にヒットしたオブジェクトは0, 以降1, 2, 3, 4とインクリメント
+     * @return 見つけた場合はそのオブジェクト、それ以外はnull
+     */
+    public T find(Matcher1<T> filter, final int n) {
+        try {
+            int index = 0;
+            for (T it : mDataList) {
+                if (filter.match(it)) {
+                    if (index == n) {
+                        return it;
+                    } else {
+                        ++index;
+                    }
+                }
+            }
+            return null;
+        } catch (Throwable e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * 事前にデータをソートし、条件にマッチするアイテムを検索する
+     *
+     * @param filter フィルタ関数
+     * @return 見つけた場合はそのオブジェクト、それ以外はnull
+     */
+    public T findWithSort(Matcher1<T> filter) {
+        try {
+            for (T it : list()) {
+                if (filter.match(it)) {
+                    return it;
+                }
+            }
+            return null;
+        } catch (Throwable e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * 事前にデータをソートし、条件にマッチするアイテムを検索する
+     *
+     * @param filter フィルタ関数
+     * @param n      N番目にヒットしたオブジェクトを検索する(最初にヒットしたオブジェクトは0, 以降1, 2, 3, 4とインクリメント
+     * @return 見つけた場合はそのオブジェクト、それ以外はnull
+     */
+    public T findWithSort(Matcher1<T> filter, int n) {
+        try {
+            int index = 0;
+            for (T it : list()) {
+                if (filter.match(it)) {
+                    if (index == n) {
+                        return it;
+                    } else {
+                        ++index;
+                    }
+                }
+            }
+            return null;
+        } catch (Throwable e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
      * 条件にマッチするデータを取得する
      */
     public List<T> list(Matcher1<T> filter) {
