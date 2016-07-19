@@ -2,6 +2,7 @@ package com.eaglesakura.util;
 
 import com.eaglesakura.lambda.Action1;
 import com.eaglesakura.lambda.Action2;
+import com.eaglesakura.lambda.Matcher1;
 import com.eaglesakura.lambda.ResultAction1;
 
 import java.util.ArrayList;
@@ -15,6 +16,24 @@ import java.util.Map;
 import java.util.Set;
 
 public class CollectionUtil {
+
+    /**
+     * データのフィルタリングを行う
+     *
+     * @param src    フィルタリング元のList
+     * @param dst    フィルタリング先のList
+     * @param filter フィルタ関数
+     * @return dstオブジェクト
+     */
+    public static <T> List<T> filter(List<T> src, List<T> dst, Matcher1<T> filter) throws Throwable {
+        for (T it : src) {
+            if (filter.match(it)) {
+                dst.add(it);
+            }
+        }
+        return dst;
+    }
+
 
     /**
      * Setの全オブジェクトに対して処理を行い、同一オブジェクトを返却する
@@ -56,6 +75,35 @@ public class CollectionUtil {
             action.action(it);
         }
         return list;
+    }
+
+    /**
+     * データのフィルタリングを行う
+     *
+     * 内部で例外が発生した場合、RuntimeExceptionとして投げる
+     *
+     * @param src    フィルタリング元のList
+     * @param dst    フィルタリング先のList
+     * @param filter フィルタ関数
+     * @return dstオブジェクト
+     */
+    public static <T> List<T> safeFilter(List<T> src, List<T> dst, Matcher1<T> filter) {
+        try {
+            return filter(src, dst, filter);
+        } catch (Throwable e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Listの全オブジェクトに対して処理を行い、同一オブジェクトを返却する
+     */
+    public static <T> List<T> safeEach(List<T> list, Action1<T> action) {
+        try {
+            return each(list, action);
+        } catch (Throwable e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
