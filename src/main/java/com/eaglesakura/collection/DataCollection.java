@@ -62,6 +62,25 @@ public class DataCollection<T> {
     }
 
     /**
+     * 元のリストの参照をそのまま取得する
+     */
+    public List<T> getSource() {
+        return mDataList;
+    }
+
+    /**
+     * 全てのデータを取得する
+     */
+    public List<T> list() {
+        return list(new Matcher1<T>() {
+            @Override
+            public boolean match(T it) throws Throwable {
+                return true;
+            }
+        }, true);
+    }
+
+    /**
      * 条件にマッチするデータを取得する
      */
     public List<T> list(Matcher1<T> filter) {
