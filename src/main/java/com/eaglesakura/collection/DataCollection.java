@@ -34,6 +34,10 @@ public class DataCollection<T> {
         return this;
     }
 
+    public int size() {
+        return mDataList.size();
+    }
+
     /**
      * データをMapに変換する
      *
