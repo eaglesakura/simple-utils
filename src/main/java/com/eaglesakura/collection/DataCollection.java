@@ -1,5 +1,6 @@
 package com.eaglesakura.collection;
 
+import com.eaglesakura.lambda.Action1;
 import com.eaglesakura.lambda.Matcher1;
 import com.eaglesakura.lambda.ResultAction1;
 import com.eaglesakura.util.CollectionUtil;
@@ -36,6 +37,30 @@ public class DataCollection<T> {
 
     public int size() {
         return mDataList.size();
+    }
+
+    /**
+     * 全てのデータに対して処理を行う
+     *
+     * @param action 処理内容
+     * @throws Throwable action内部で投げられた例外
+     */
+    public void each(Action1<T> action) throws Throwable {
+        for (T data : mDataList) {
+            action.action(data);
+        }
+    }
+
+    /**
+     * ソート後にデータに対して処理する
+     *
+     * @param action アクション
+     * @throws Throwable action内部の例外
+     */
+    public void sortEach(Action1<T> action) throws Throwable {
+        for (T data : list()) {
+            action.action(data);
+        }
     }
 
     /**
