@@ -1,6 +1,7 @@
 package com.eaglesakura.collection;
 
 import com.eaglesakura.lambda.Action1;
+import com.eaglesakura.lambda.Action2;
 import com.eaglesakura.lambda.Matcher1;
 import com.eaglesakura.lambda.ResultAction1;
 import com.eaglesakura.util.CollectionUtil;
@@ -48,6 +49,18 @@ public class DataCollection<T> {
     public void each(Action1<T> action) throws Throwable {
         for (T data : mDataList) {
             action.action(data);
+        }
+    }
+
+
+    /**
+     * インデックス付きでデータ処理を行う
+     */
+    public void each(Action2<Integer, T> action) throws Throwable {
+        int index = 0;
+        for (T data : mDataList) {
+            action.action(index, data);
+            ++index;
         }
     }
 
