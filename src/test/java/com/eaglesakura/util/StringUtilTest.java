@@ -2,6 +2,7 @@ package com.eaglesakura.util;
 
 import org.junit.Test;
 
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -51,5 +52,16 @@ public class StringUtilTest {
             }
             assertEquals(ALL_HASH.size(), LOOP_NUM);
         }
+    }
+
+    @Test
+    public void BigDecimalから変換が行える() throws Throwable {
+        assertEquals(StringUtil.toDisplayText(BigDecimal.ZERO), "0");
+        assertEquals(StringUtil.toDisplayText(BigDecimal.ONE), "1");
+        assertEquals(StringUtil.toDisplayText(BigDecimal.valueOf(-1L)), "-1");
+        assertEquals(StringUtil.toDisplayText(new BigDecimal("123.234")), "123.234");
+        assertEquals(StringUtil.toDisplayText(new BigDecimal("-123.234")), "-123.234");
+        assertEquals(StringUtil.toDisplayText(new BigDecimal("1234567890.234")), "1,234,567,890.234");
+        assertEquals(StringUtil.toDisplayText(new BigDecimal("-1234567890.234")), "-1,234,567,890.234");
     }
 }
