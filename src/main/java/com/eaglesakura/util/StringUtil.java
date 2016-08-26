@@ -1,6 +1,7 @@
 package com.eaglesakura.util;
 
 import java.lang.reflect.Method;
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -485,6 +486,40 @@ public class StringUtil {
         String result = value;
         while (result.contains(org)) {
             result = value.replace(org, rep);
+        }
+
+        return result;
+    }
+
+    /**
+     * 入力された数値を、人間が読める文字列に変換する
+     */
+    public static String toDisplayText(BigDecimal decimal) {
+        String value = decimal.abs().toString();
+        // 数値を区切る
+        String[] nums = value.split("\\.");
+
+        String integerOrigin = nums[0];
+        String result = "";
+        int count = 0;
+        for (int i = (integerOrigin.length() - 1); i >= 0; --i) {
+            if (count > 0 && count % 3 == 0) {
+                // 3桁区切りでカンマ
+                result = "," + result;
+            }
+
+            char it = integerOrigin.charAt(i);
+            result = it + result;
+            ++count;
+        }
+
+        if (nums.length == 2) {
+            result += "." + nums[1];
+        }
+
+        // ゼロ未満であれば、符号をつける
+        if (decimal.compareTo(BigDecimal.ZERO) < 0) {
+            result = "-" + result;
         }
 
         return result;
