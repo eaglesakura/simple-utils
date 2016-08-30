@@ -77,6 +77,20 @@ public class DataCollection<T> {
     }
 
     /**
+     * ソート後にデータに対して処理する
+     *
+     * @param action アクション
+     * @throws Throwable action内部の例外
+     */
+    public void sortEach(Action2<Integer, T> action) throws Throwable {
+        int index = 0;
+        for (T data : list()) {
+            action.action(index, data);
+            ++index;
+        }
+    }
+
+    /**
      * データをMapに変換する
      *
      * @param filter     データフィルタ
