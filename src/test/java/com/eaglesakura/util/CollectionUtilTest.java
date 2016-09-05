@@ -8,7 +8,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 public class CollectionUtilTest {
 
@@ -22,6 +25,13 @@ public class CollectionUtilTest {
         });
         assertNotNull(filter);
         assertEquals(filter.size(), 1);
-        assertEquals((int)filter.get(0), 10);
+        assertEquals((int) filter.get(0), 10);
+    }
+
+    @Test
+    public void nullチェックが正常に動作する() throws Throwable {
+        assertTrue(CollectionUtil.allNotNull("this"));
+        assertTrue(CollectionUtil.allNotNull("this", 1, 1.23));
+        assertFalse(CollectionUtil.allNotNull("this", null, "is"));
     }
 }
