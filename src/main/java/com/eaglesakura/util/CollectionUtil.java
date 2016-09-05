@@ -271,4 +271,17 @@ public class CollectionUtil {
         return item == null || item.isEmpty();
     }
 
+
+    /**
+     * 全てが!=nullであればtrue
+     */
+    public static boolean allNotNull(Object... objects) {
+        for (Object obj : objects) {
+            if (obj == null) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }
