@@ -40,6 +40,10 @@ public class DataCollection<T> {
         return mDataList.size();
     }
 
+    public boolean isEmpty() {
+        return mDataList.isEmpty();
+    }
+
     /**
      * 全てのデータに対して処理を行う
      *
