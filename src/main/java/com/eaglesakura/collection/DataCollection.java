@@ -126,6 +126,24 @@ public class DataCollection<T> {
     }
 
     /**
+     * ソート後にデータに対して処理する
+     *
+     * @param action アクション
+     * @throws Throwable action内部の例外
+     */
+    public void sortSafeEach(Action2<Integer, T> action) {
+        try {
+            int index = 0;
+            for (T data : list()) {
+                action.action(index, data);
+                ++index;
+            }
+        } catch (Throwable e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
      * データをMapに変換する
      *
      * @param filter     データフィルタ
