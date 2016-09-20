@@ -69,6 +69,37 @@ public class DataCollection<T> {
     }
 
     /**
+     * 全てのデータに対して処理を行う
+     *
+     * @param action 処理内容
+     */
+    public void safeEach(Action1<T> action) {
+        try {
+            for (T data : mDataList) {
+                action.action(data);
+            }
+        } catch (Throwable e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    /**
+     * インデックス付きでデータ処理を行う
+     */
+    public void safeEach(Action2<Integer, T> action) {
+        try {
+            int index = 0;
+            for (T data : mDataList) {
+                action.action(index, data);
+                ++index;
+            }
+        } catch (Throwable e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
      * ソート後にデータに対して処理する
      *
      * @param action アクション
@@ -91,6 +122,24 @@ public class DataCollection<T> {
         for (T data : list()) {
             action.action(index, data);
             ++index;
+        }
+    }
+
+    /**
+     * ソート後にデータに対して処理する
+     *
+     * @param action アクション
+     * @throws Throwable action内部の例外
+     */
+    public void sortSafeEach(Action2<Integer, T> action) {
+        try {
+            int index = 0;
+            for (T data : list()) {
+                action.action(index, data);
+                ++index;
+            }
+        } catch (Throwable e) {
+            throw new RuntimeException(e);
         }
     }
 
