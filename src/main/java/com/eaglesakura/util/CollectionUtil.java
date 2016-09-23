@@ -34,6 +34,18 @@ public class CollectionUtil {
         return dst;
     }
 
+    /**
+     * 含まれているnullを削除し、参照を返す
+     */
+    public static <T> List<T> trimNull(List<T> srcDst) {
+        Iterator<T> iterator = srcDst.iterator();
+        while (iterator.hasNext()) {
+            if (iterator.next() == null) {
+                iterator.remove();
+            }
+        }
+        return srcDst;
+    }
 
     /**
      * Setの全オブジェクトに対して処理を行い、同一オブジェクトを返却する
@@ -283,5 +295,4 @@ public class CollectionUtil {
         }
         return true;
     }
-
 }
