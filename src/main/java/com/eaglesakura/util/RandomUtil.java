@@ -1,6 +1,9 @@
 package com.eaglesakura.util;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * 乱数生成用Util
@@ -171,5 +174,19 @@ public class RandomUtil {
         } catch (Exception e) {
             return null;
         }
+    }
+
+    /**
+     * 配列からランダムに１個取得する
+     *
+     * @param items 1以上の要素を持つリスト
+     */
+    public static <T> T randGet(Collection<T> items) {
+        if (CollectionUtil.isEmpty(items)) {
+            throw new IllegalArgumentException();
+        }
+
+        List<T> temp = new ArrayList<>(items);
+        return temp.get(randUInt32() % items.size());
     }
 }
