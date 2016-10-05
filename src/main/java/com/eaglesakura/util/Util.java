@@ -26,6 +26,31 @@ public class Util {
         }
     }
 
+
+    public static double getDouble(Double value, double defValue) {
+        if (value == null) {
+            return defValue;
+        } else {
+            return value;
+        }
+    }
+
+    public static float getFloat(Float value, float defValue) {
+        if (value == null) {
+            return defValue;
+        } else {
+            return value;
+        }
+    }
+
+    public static long getLong(Long value, long defValue) {
+        if (value == null) {
+            return defValue;
+        } else {
+            return value;
+        }
+    }
+
     public static int getInt(Integer value, int defValue) {
         if (value == null) {
             return defValue;
@@ -34,7 +59,15 @@ public class Util {
         }
     }
 
-    public static double getDouble(Double value, double defValue) {
+    public static short getShort(Short value, short defValue) {
+        if (value == null) {
+            return defValue;
+        } else {
+            return value;
+        }
+    }
+
+    public static byte getByte(Byte value, byte defValue) {
         if (value == null) {
             return defValue;
         } else {
