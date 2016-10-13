@@ -3,7 +3,6 @@ package com.eaglesakura.collection;
 import com.eaglesakura.util.StringUtil;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -23,21 +22,15 @@ public class StringFlag {
     public StringFlag() {
     }
 
-    public StringFlag(Collection<Object> flags) {
-        for (Object flg : flags) {
-            add(flg);
-        }
-    }
-
-    public StringFlag(Iterable<Object> flags) {
-        for (Object flg : flags) {
-            add(flg);
-        }
-    }
-
     public StringFlag(Object... flags) {
         for (Object flag : flags) {
-            add(flag);
+            if (flag instanceof Iterable) {
+                for (Object f : (Iterable) flag) {
+                    add(f);
+                }
+            } else {
+                add(flag);
+            }
         }
     }
 
