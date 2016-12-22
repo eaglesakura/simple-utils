@@ -91,6 +91,9 @@ public class ReflectionUtil {
      * objがclazzクラスかサブクラスである場合trueを返す
      */
     public static boolean instanceOf(Object obj, Class<?> clazz) {
+        if (obj == null || clazz == null) {
+            return false;
+        }
         try {
             return obj.getClass().asSubclass(clazz) != null;
         } catch (Exception e) {

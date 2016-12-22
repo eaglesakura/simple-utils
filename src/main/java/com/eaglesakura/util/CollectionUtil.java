@@ -18,6 +18,40 @@ import java.util.Set;
 public class CollectionUtil {
 
     /**
+     * コレクションをすべてチェックし、trueを返した場合に削除を行う
+     *
+     * @param srcdst  入出力
+     * @param execute 実行し、trueを返したオブジェクトについては削除する
+     * @return 削除数
+     */
+    public static <T> int eachRemove(Collection<T> srcdst, Matcher1<T> execute) throws Throwable {
+        int result = 0;
+        Iterator<T> iterator = srcdst.iterator();
+        while (iterator.hasNext()) {
+            T item = iterator.next();
+            if (execute.match(item)) {
+                iterator.remove();
+                ++result;
+            }
+        }
+        return result;
+    }
+
+    /**
+     * コレクションをすべてチェックし、trueを返した場合に削除を行う
+     *
+     * @param srcdst  入出力
+     * @param execute 実行し、trueを返したオブジェクトについては削除する
+     */
+    public static <T> int safeEachRemove(Collection<T> srcdst, Matcher1<T> execute) {
+        try {
+            return eachRemove(srcdst, execute);
+        } catch (Throwable e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
      * データのフィルタリングを行う
      *
      * @param src    フィルタリング元のList
