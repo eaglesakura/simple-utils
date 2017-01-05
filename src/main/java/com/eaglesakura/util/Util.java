@@ -157,6 +157,20 @@ public class Util {
     }
 
     /**
+     * valueがnullでなければactionを実行する。
+     * 問題が発生しても問題を切り捨てる。
+     */
+    public static <T> T safeIfPresent(T value, Action1<T> action) {
+        if (value != null) {
+            try {
+                action.action(value);
+            } catch (Throwable e) {
+            }
+        }
+        return value;
+    }
+
+    /**
      * itemが重複しないようにaddする
      *
      * @see CollectionUtil#addUnique(List, Object)
