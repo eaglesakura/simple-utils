@@ -40,7 +40,7 @@ dependencies {
 //        compile 'com.eaglesakura:simple-logger:1.+'
 //    }
     testCompile 'junit:junit:4.12'
-    testCompile 'commons-codec:commons-codec:1.+'
+    testCompile 'commons-codec:commons-codec:1.10'
 }
 
 apply plugin: 'java'
@@ -80,19 +80,6 @@ uploadArchives {
             pom.version = ARTIFACT_VERSION + getArtifactVersionSuffix()
             pom.groupId = "com.eaglesakura"
             pom.artifactId = ARTIFACT_NAME
-        }
-    }
-}
-
-[uploadArchives.repositories.mavenDeployer]*.pom*.whenConfigured { pom ->
-    pom.project {
-        inceptionYear '2016'
-        packaging 'jar'
-        licenses {
-            license {
-                name 'MIT License'
-                url "https://raw.githubusercontent.com/eaglesakura/${ARTIFACT_NAME}/master/LICENSE.txt"
-            }
         }
     }
 }
